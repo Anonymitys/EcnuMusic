@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:clickable="true"
+    android:gravity="center">
+    <ImageView
+        android:id="@+id/listen_image"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:src="@drawable/listen"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"/>
+    <LinearLayout
+        android:id="@+id/play_list"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_marginLeft="10dp">
+        <TextView
+            android:id="@+id/song_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blackColor"
+            android:textSize="15sp"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:id="@+id/artist_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/expand_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/expand_button"
+        android:layout_marginRight="15dp"/>
+</LinearLayout>

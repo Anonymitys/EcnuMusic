@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#e91d1d</color>
+    <color name="colorPrimaryDark">#e91d1d</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="backColor">#e7dee1</color>
+    <color name="blackColor">#000000</color>
+    <color name="clickbg">#3a000000</color>
+</resources>

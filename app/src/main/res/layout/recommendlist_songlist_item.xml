@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_songlist"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="1.5dp">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/background_album"
+            android:layout_width="wrap_content"
+            android:layout_height="280px"
+            android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/iv_recommendlist"
+            android:layout_width="340px"
+            android:layout_height="340px" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:id="@+id/songlist_describe"
+        android:layout_width="330px"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"/>
+
+</LinearLayout>
