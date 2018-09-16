@@ -96,22 +96,23 @@ public class musicFragment extends Fragment implements View.OnClickListener, Rec
     @Override
     public void onClick(View v) {
         Intent intent=null;
-        PlaylistFragment fragment=new PlaylistFragment();
+        PlaylistFragment playlistFragment=new PlaylistFragment();
+        SingerListFragment singerListFragment=new SingerListFragment();
         switch (v.getId()){
             case R.id.ll_singer:
-                Toast.makeText(getContext(),"singer",Toast.LENGTH_SHORT).show();
+                ((FragmentEntrust)getActivity()).pushFragment(singerListFragment,PlaylistFragment.TAG);
                 break;
             case R.id.ll_recommend:
                 getDayRecommendList();
                 break;
             case R.id.ll_song_list:
-                ((FragmentEntrust)getActivity()).pushFragment(fragment,PlaylistFragment.TAG);
+                ((FragmentEntrust)getActivity()).pushFragment(playlistFragment,PlaylistFragment.TAG);
                 break;
             case R.id.ll_rank_list:
                 Toast.makeText(getContext(),"ranklist",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_recommend_songlist:
-                ((FragmentEntrust)getActivity()).pushFragment(fragment,PlaylistFragment.TAG);
+                ((FragmentEntrust)getActivity()).pushFragment(playlistFragment,PlaylistFragment.TAG);
                 break;
 
                 default:

@@ -365,11 +365,6 @@ public class SongListDetailActivity extends BaseActivity implements SongDetailAd
     }
 
     @Override
-    public void onPublish(int progress) {
-
-    }
-
-    @Override
     public void onPlayerStart() {
         super.onPlayerStart();
     }

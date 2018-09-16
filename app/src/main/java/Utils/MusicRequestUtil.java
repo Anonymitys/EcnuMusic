@@ -32,4 +32,54 @@ public class MusicRequestUtil {
         String header="https://y.qq.com/portal/playlist.html";
         OkHttpEngine.getInstance(context).getAsynHttp(url,header,callback);
     }
+
+    public static void getNeidiSinger(Context context,ResultCallback callback){
+        String url="https://u.y.qq.com/cgi-bin/musicu.fcg?&g_tk=5381&format=jsonp&inCharset=utf8&outCharset" +
+                "=utf-8&notice=0&platform=yqq&needNewCode=0&data=%7B%22comm%22%3A%7B%22ct%22%3A24%2C%22cv%22%" +
+                "3A10000%7D%2C%22singerList%22%3A%7B%22module%22%3A%22Music.SingerListServer%22%2C%22method%22%3A" +
+                "%22get_singer_list%22%2C%22param%22%3A%7B%22area%22%3A200%2C%22sex%22%3A-100%2C%22genre%22%3A-100%2C" +
+                "%22index%22%3A-100%2C%22sin%22%3A0%2C%22cur_page%22%3A1%7D%7D%7D";
+        OkHttpEngine.getInstance(context).getAsynHttp(url,callback);
+
+    }
+
+    public static void getGantaiSinger(Context context,ResultCallback callback){
+        String url="https://u.y.qq.com/cgi-bin/musicu.fcg?&g_tk=5381&format=jsonp&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&data=%7B%22comm%22%3A%7B%22ct%" +
+                "22%3A24%2C%22cv%22%3A10000%7D%2C%22singerList%22%3A%7B%22module%22%3A%22Music.SingerListServer%22%2C%22method%22%3A%22get_singer_list%22%2C%22" +
+                "param%22%3A%7B%22area%22%3A2%2C%22sex%22%3A-100%2C%22genre%22%3A-100%2C%22index%22%3A-100%2C%22sin%22%3A0%2C%22cur_page%22%3A1%7D%7D%7D";
+        OkHttpEngine.getInstance(context).getAsynHttp(url,callback);
+    }
+
+    public static void getKoreaSinger(Context context,ResultCallback callback){
+        String url="https://u.y.qq.com/cgi-bin/musicu.fcg?&g_tk=5381&format=jsonp&inCharset=utf8&outCharset=utf-8" +
+                "&notice=0&platform=yqq&needNewCode=0&data=%7B%22comm%22%3A%7B%22ct%22%3A24%2C%22cv%22%3A10000%7D%2C%22" +
+                "singerList%22%3A%7B%22module%22%3A%22Music.SingerListServer%22%2C%22method%22%3A%22get_singer_list%22%2C%22" +
+                "param%22%3A%7B%22area%22%3A3%2C%22sex%22%3A-100%2C%22genre%22%3A-100%2C%22index%22%3A-100%2C%22sin%22%3A0%2C%22" +
+                "cur_page%22%3A1%7D%7D%7D";
+        OkHttpEngine.getInstance(context).getAsynHttp(url,callback);
+    }
+
+    public static void getAmericaSinger(Context context,ResultCallback callback){
+        String url="https://u.y.qq.com/cgi-bin/musicu.fcg?&g_tk=5381&format=jsonp&inCharset=utf8&outCharset=utf-8" +
+                "&notice=0&platform=yqq&needNewCode=0&data=%7B%22comm%22%3A%7B%22ct%22%3A24%2C%22cv%22%3A10000%7D%2C%22" +
+                "singerList%22%3A%7B%22module%22%3A%22Music.SingerListServer%22%2C%22method%22%3A%22" +
+                "get_singer_list%22%2C%22param%22%3A%7B%22area%22%3A5%2C%22sex%22%3A-100%2C%22" +
+                "genre%22%3A-100%2C%22index%22%3A-100%2C%22sin%22%3A0%2C%22cur_page%22%3A1%7D%7D%7D";
+        OkHttpEngine.getInstance(context).getAsynHttp(url,callback);
+    }
+
+    public static void getJapanSinger(Context context,ResultCallback callback){
+        String url="https://u.y.qq.com/cgi-bin/musicu.fcg?&g_tk=5381&format=jsonp&inCharset=utf8&outCharset=utf-8&" +
+                "notice=0&platform=yqq&needNewCode=0&data=%7B%22comm%22%3A%7B%22ct%22%3A24%2C%22cv%22%3A10000%7D%2C%22" +
+                "singerList%22%3A%7B%22module%22%3A%22Music.SingerListServer%22%2C%22method%22%3A%22get_singer_list%22%2C%22" +
+                "param%22%3A%7B%22area%22%3A4%2C%22sex%22%3A-100%2C%22genre%22%3A-100%2C%22index%22%3A-100%2C%22sin%22%3A0%2C%22" +
+                "cur_page%22%3A1%7D%7D%7D";
+        OkHttpEngine.getInstance(context).getAsynHttp(url,callback);
+    }
+
+    public static void getSingerSong(Context context,String singermid,ResultCallback callback){
+        String url="https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg?g_tk=1878528355&format=jsonp&inCharset=utf8" +
+                "&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&singermid="+singermid+"&order=listen&begin=0&num=200&songstatus=1";
+        OkHttpEngine.getInstance(context).getAsynHttp(url,callback);
+    }
 }
