@@ -5,21 +5,38 @@
     android:layout_width="match_parent"
     android:id="@+id/bottom_paly_bar"
     android:layout_height="50dp"
-    android:background="#f7f0f0"
+    android:background="#f0ffffff"
     android:gravity="center"
     android:clickable="true">
+
     <ImageView
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:id="@+id/play_image_bar"
         android:layout_width="40dp"
         android:layout_height="40dp"
-      android:layout_marginLeft="6dp"
-        android:background="@drawable/album"/>
+        android:layout_marginLeft="6dp"
+        android:src="@drawable/album"/>
     <LinearLayout
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:layout_width="0dp"
+        android:layout_marginLeft="10dp"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/playbar_song_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:text="歌名"/>
+        <TextView
+            android:id="@+id/playbar_lyrics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="歌词"/>
     </LinearLayout>
     <RelativeLayout
         android:layout_width="30dp"
@@ -43,7 +60,7 @@
 
     </RelativeLayout>
     <ImageView
-        android:id="@+id/play_like_bar"
+        android:id="@+id/play_list_bar"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginRight="10dp"

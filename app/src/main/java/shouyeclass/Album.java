@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-import ClassCollection.Singer;
+import classcollection.Singer;
 
 public class Album implements Serializable{
     public long album_id;

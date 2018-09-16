@@ -2,7 +2,6 @@ package adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -12,11 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
-import ClassCollection.RecommendList;
 import Utils.GlideImgManager;
 import ecnu.ecnumusic.R;
 import shouyeclass.Album;

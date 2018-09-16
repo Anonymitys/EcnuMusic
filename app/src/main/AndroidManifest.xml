@@ -37,9 +37,10 @@
         </provider>
 
         <activity android:name=".PlaylistActivity" />
+        <activity android:name=".BaseActivity" />
 
         <service
-            android:name="service.MediaPlayerService"
+            android:name="service.MusicService"
             android:enabled="true"
             android:exported="true"></service>
     </application>

@@ -26,7 +26,7 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import ClassCollection.Music;
+import classcollection.Music;
 import Utils.DisplayUtil;
 import Utils.MusicUtil;
 import de.hdodenhof.circleimageview.CircleImageView;

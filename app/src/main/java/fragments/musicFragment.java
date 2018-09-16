@@ -4,20 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.transition.ChangeBounds;
-import android.support.transition.Fade;
-import android.support.transition.Slide;
-import android.support.transition.TransitionInflater;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,21 +27,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import ClassCollection.Focus;
-import ClassCollection.RecommendList;
-import ClassCollection.Shouyetuijian;
 import Utils.MusicRequestUtil;
 import Utils.Utility;
-import Utils.OkHttpEngine;
 import Utils.ResultCallback;
 import adapter.RecommendSonglistAdapter;
-import ecnu.ecnumusic.PlaylistActivity;
+import ecnu.ecnumusic.PlaylistFragment;
 import ecnu.ecnumusic.R;
 import ecnu.ecnumusic.SongListDetailActivity;
 import jiekou.FragmentEntrust;
 import okhttp3.Request;
 import okhttp3.Response;
-import other.DetailsTransition;
 import other.GlideImageLoader;
 import shouyeclass.Album;
 import shouyeclass.Content;
@@ -61,6 +50,7 @@ public class musicFragment extends Fragment implements View.OnClickListener, Rec
     private RecyclerView songlistRecycler,albumRecycler;
     private TextView textView;
     private static final String TAG="MusicFragment";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -106,6 +96,7 @@ public class musicFragment extends Fragment implements View.OnClickListener, Rec
     @Override
     public void onClick(View v) {
         Intent intent=null;
+        PlaylistFragment fragment=new PlaylistFragment();
         switch (v.getId()){
             case R.id.ll_singer:
                 Toast.makeText(getContext(),"singer",Toast.LENGTH_SHORT).show();
@@ -114,15 +105,13 @@ public class musicFragment extends Fragment implements View.OnClickListener, Rec
                 getDayRecommendList();
                 break;
             case R.id.ll_song_list:
-              intent=new Intent(getActivity(), PlaylistActivity.class);
-              startActivity(intent);
+                ((FragmentEntrust)getActivity()).pushFragment(fragment,PlaylistFragment.TAG);
                 break;
             case R.id.ll_rank_list:
                 Toast.makeText(getContext(),"ranklist",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_recommend_songlist:
-                intent=new Intent(getActivity(),PlaylistActivity.class);
-                startActivity(intent);
+                ((FragmentEntrust)getActivity()).pushFragment(fragment,PlaylistFragment.TAG);
                 break;
 
                 default:
@@ -231,5 +220,8 @@ public class musicFragment extends Fragment implements View.OnClickListener, Rec
             }
         });
     }
+
+
+
 }
 

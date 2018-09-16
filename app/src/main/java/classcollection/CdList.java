@@ -1,4 +1,4 @@
-package ClassCollection;
+package classcollection;
 
 import com.google.gson.annotations.SerializedName;
 

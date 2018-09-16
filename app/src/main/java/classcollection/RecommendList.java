@@ -1,4 +1,4 @@
-package ClassCollection;
+package classcollection;
 
 import java.io.Serializable;
 

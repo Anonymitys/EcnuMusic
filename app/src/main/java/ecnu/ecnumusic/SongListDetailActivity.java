@@ -2,14 +2,16 @@ package ecnu.ecnumusic;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
-import android.os.Looper;
-import android.provider.MediaStore;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,36 +34,34 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.ywl5320.libenum.MuteEnum;
-import com.ywl5320.libmusic.WlMusic;
-import com.ywl5320.listener.OnPreparedListener;
 
 import java.io.IOException;
 import java.util.List;
 
-import ClassCollection.CdList;
-import ClassCollection.RecommendList;
-import ClassCollection.Singer;
-import ClassCollection.Song;
+import classcollection.CdList;
+import classcollection.Singer;
+import classcollection.Song;
 import Utils.GlideImgManager;
 import Utils.MusicRequestUtil;
-import Utils.OkHttpEngine;
 import Utils.ResultCallback;
 import Utils.StatusBarUtil;
 import Utils.Utility;
 import adapter.SongDetailAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
+import fragments.PlaybarFragment;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import okhttp3.Request;
 import okhttp3.Response;
 import other.CustomChangeBounds;
+import service.MusicService;
+import service.OnPlayerEventListener;
 import shouyeclass.Album;
 import shouyeclass.PlayList;
 import shouyeclass.Vhot;
 
 import static android.text.Html.FROM_HTML_MODE_COMPACT;
 
-public class SongListDetailActivity extends AppCompatActivity implements SongDetailAdapter.OnItemClickListener{
+public class SongListDetailActivity extends BaseActivity implements SongDetailAdapter.OnItemClickListener, OnPlayerEventListener{
 
     //private RecommendList recommendList;
     private Vhot vhot;
@@ -76,8 +76,10 @@ public class SongListDetailActivity extends AppCompatActivity implements SongDet
     private int slidingDistance;
     private Handler handler=new Handler();
     private static final String TAG="SonglistDetailActivity";
-    private MediaPlayer mediaPlayer;
+
     private String tag;
+   private MusicService.MusicBinder musicBinder;
+ //  private PlaybarFragment playbarFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +110,9 @@ public class SongListDetailActivity extends AppCompatActivity implements SongDet
         head_background=(ImageView)findViewById(R.id.head_background);
         scrollView=(ScrollView)findViewById(R.id.scroll_view);
         title_imagebg=(ImageView)findViewById(R.id.title_imagebg);
-         mediaPlayer=new MediaPlayer();
+
+
+
          initToolbar();
         setMotion(imageView,false);
         if ("songlist".equals(tag)){
@@ -289,6 +293,16 @@ public class SongListDetailActivity extends AppCompatActivity implements SongDet
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     private void initToolbar(){
         setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null){
@@ -314,34 +328,28 @@ public class SongListDetailActivity extends AppCompatActivity implements SongDet
         marginLayoutParams.setMargins(0, StatusBarUtil.getStatusBarHeight(this),0,0);
     }
 
-    @Override
-    public void onItemClick(final Song song) {
-     /* if (mediaPlayer.isPlaying()){
-          mediaPlayer.reset();
-      }
-        initMediaPlayer(song);*/
 
+
+
+
+
+    @Override
+    public void onItemClick(int position, List<Song> songs) {
         Log.e(TAG, "onItemClick: " );
+       // String url="http://ws.stream.qqmusic.qq.com/C100"+song.songmid+".m4a?fromtag=0&guid=126548448";
+        musicBinder.playFromURL(position,songs);
+    }
+
+    @Override
+    public void connection(IBinder service) {
+        super.connection(service);
+       musicBinder=(MusicService.MusicBinder)service;
+       musicBinder.getService().setOnPlayEventListener(this);
+
 
     }
 
-   private void initMediaPlayer(Song song){
-       String url="http://ws.stream.qqmusic.qq.com/C100"+song.songmid+".m4a?fromtag=0&guid=126548448";
-       try{
-           mediaPlayer.setDataSource(url);
-           mediaPlayer.prepare();
-           mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-               @Override
-               public void onPrepared(MediaPlayer mp) {
-                   Log.e(TAG, "onPrepared: " );
-                   mediaPlayer.start();
-               }
-           });
-       }catch (Exception ex){
-           ex.printStackTrace();
-       }
 
-   }
    private String getSingerName(List<Singer> singers){
        String text="";
        for (Singer singer:singers){
@@ -350,4 +358,19 @@ public class SongListDetailActivity extends AppCompatActivity implements SongDet
        text=text.substring(0,text.length()-1);
        return text;
    }
+
+    @Override
+    public void onChange(Song song) {
+        super.onChange(song);
+    }
+
+    @Override
+    public void onPublish(int progress) {
+
+    }
+
+    @Override
+    public void onPlayerStart() {
+        super.onPlayerStart();
+    }
 }

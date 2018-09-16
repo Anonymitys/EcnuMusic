@@ -13,7 +13,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import ClassCollection.Music;
 import adapter.LocalMusicFragmentAdapter;
 import fragments.AlbumFragment;
 import fragments.FileFragment;

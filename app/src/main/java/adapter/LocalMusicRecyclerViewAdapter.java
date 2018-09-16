@@ -18,8 +18,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.List;
 
-import ClassCollection.Music;
-import Utils.MusicUtil;
+import classcollection.Music;
 import Utils.VariableUtil;
 import ecnu.ecnumusic.PlayActivity;
 import ecnu.ecnumusic.R;

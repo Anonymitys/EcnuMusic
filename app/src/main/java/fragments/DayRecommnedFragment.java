@@ -3,7 +3,6 @@ package fragments;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.print.PrinterId;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,31 +11,32 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 
 import java.io.IOException;
+import java.util.List;
 
-import ClassCollection.CdList;
-import ClassCollection.Song;
+import classcollection.CdList;
+import classcollection.Song;
 import Utils.GlideImgManager;
 import Utils.MusicRequestUtil;
 import Utils.ResultCallback;
-import Utils.StatusBarUtil;
 import Utils.Utility;
 import adapter.SongDetailAdapter;
 import ecnu.ecnumusic.R;
-import ecnu.ecnumusic.SongListDetailActivity;
 import jiekou.FragmentEntrust;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import okhttp3.Request;
 import okhttp3.Response;
+import service.MusicService;
 
 public class DayRecommnedFragment extends Fragment implements SongDetailAdapter.OnItemClickListener{
     public static final String TAG="DayRecommnedFragment";
@@ -47,6 +47,7 @@ public class DayRecommnedFragment extends Fragment implements SongDetailAdapter.
     private MediaPlayer mediaPlayer;
     private String title,imageUrl;
     private android.support.v7.widget.Toolbar toolbar;
+    private MusicService.MusicBinder musicBinder;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +58,7 @@ public class DayRecommnedFragment extends Fragment implements SongDetailAdapter.
             Log.i(TAG,imageUrl);
             Log.e(TAG,title );
         }
+        musicBinder=((FragmentEntrust)getActivity()).getMusicBinder();
     }
 
     @Nullable
@@ -107,36 +109,20 @@ public class DayRecommnedFragment extends Fragment implements SongDetailAdapter.
         });
     }
 
-    @Override
-    public void onItemClick(Song song) {
-        if (mediaPlayer.isPlaying()){
-            mediaPlayer.reset();
-        }
-        initMediaPlayer(song);
-    }
-    private void initMediaPlayer(Song song){
-        String url="http://ws.stream.qqmusic.qq.com/C100"+song.songmid+".m4a?fromtag=0&guid=126548448";
-        try{
-            mediaPlayer.setDataSource(url);
-            mediaPlayer.prepare();
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    Log.e(TAG, "onPrepared: " );
-                    mediaPlayer.start();
-                }
-            });
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
 
+
+    @Override
+    public void onItemClick(int position, List<Song> songs) {
+        musicBinder.playFromURL(position,songs);
     }
+
     private void initWindows(){
         View decorView=getActivity().getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         getActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
     private void initToolBar(){
+        setHasOptionsMenu(true);
        ( (AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         ( (AppCompatActivity)getActivity()).getSupportActionBar().setTitle("新歌推荐");
@@ -147,5 +133,11 @@ public class DayRecommnedFragment extends Fragment implements SongDetailAdapter.
                 ((FragmentEntrust)getActivity()).popFragment(DayRecommnedFragment.TAG);
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
     }
 }

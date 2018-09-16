@@ -1,13 +1,4 @@
-package ClassCollection;
-
-import android.content.Context;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-
-import java.time.temporal.TemporalAccessor;
+package classcollection;
 
 public class Music {
     private long id;

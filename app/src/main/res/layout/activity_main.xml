@@ -30,6 +30,7 @@
                 android:layout_alignParentBottom="true"
                 layout="@layout/play_bar"
                 android:visibility="gone"/>
+
         </RelativeLayout>
 
 

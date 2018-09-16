@@ -42,12 +42,6 @@ public class CircleView extends View {
         rectF.bottom=mCircleX+getHeight()/2-getPaddingBottom();
         canvas.drawArc(rectF,-90,360,false,backPaint);
         canvas.drawArc(rectF,-90,currentAngle,false,forePaint);
-        if(!isPause){
-            if(currentAngle<360){
-                currentAngle=currentAngle+360f/duration;
-                postInvalidateDelayed(1000);
-            }
-        }
 
 
     }
@@ -80,5 +74,9 @@ public class CircleView extends View {
     }
     public void setPause(boolean value){
         isPause=value;
+    }
+
+    public void setCurrentAngle(float angle){
+        this.currentAngle=angle*360/duration;
     }
 }

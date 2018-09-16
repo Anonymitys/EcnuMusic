@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
-import ClassCollection.Music;
+import classcollection.Music;
 
 public class MusicUtil {
     private static final Uri albumArtUri=Uri.parse("content://media/external/audio/albumart");

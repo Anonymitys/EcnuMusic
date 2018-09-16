@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -16,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -27,13 +29,17 @@ import java.util.List;
 
 import Utils.StatusBarUtil;
 import adapter.FragmentAdapter;
+import classcollection.Song;
+import fragments.PlaybarFragment;
 import jiekou.FragmentEntrust;
+import service.MusicService;
+import service.OnPlayerEventListener;
 import widget.CircleView;
 import fragments.LocalFragment;
 import fragments.VideoFragment;
 import fragments.musicFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,FragmentEntrust{
+public class MainActivity extends BaseActivity implements FragmentEntrust, OnPlayerEventListener{
     private boolean isPlay=false;
     private boolean isLike=false;
     private ImageView playImage;
@@ -44,25 +50,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TabLayout tabLayout;
     private LinearLayout container;
 
+    private MusicService.MusicBinder musicBinder;
+    private static final String TAG="MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e(TAG, "onCreate: " );
          StatusBarUtil.fullScreen(this);
         // getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_main);
         StatusBarUtil.addStatusBarView(this,getResources().getColor(R.color.colorPrimary));
         playImage=(ImageView)findViewById(R.id.play_pause_bar);
-        likeImage=(ImageView)findViewById(R.id.play_like_bar);
+        likeImage=(ImageView)findViewById(R.id.play_list_bar);
         linearLayout=(LinearLayout)findViewById(R.id.bottom_paly_bar);
         circleView=(CircleView)findViewById(R.id.circle_view);
         pager=(ViewPager)findViewById(R.id.view_pager);
         tabLayout=(TabLayout)findViewById(R.id.tab_layout);
+
         initViewPager(pager,tabLayout);
-        setListener();
+      //  setListener();
         requestPermission(this);
     }
 
-    @Override
+   /* @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.play_pause_bar:
@@ -84,22 +94,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
                 break;
-            case R.id.play_like_bar:
+            case R.id.play_list_bar:
                 if(!isLike){
                     isLike=true;
                    likeImage.setBackground(getDrawable(R.drawable.like));
                 }else {
                     isLike=false;
                    likeImage.setBackground(getDrawable(R.drawable.not_like));
+
                 }
                 break;
             case R.id.bottom_paly_bar:
                 break;
         }
 
+    }*/
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e(TAG, "onDestroy: " );
 
+    }
 
     private void setListener(){
         playImage.setOnClickListener(this);
@@ -141,6 +162,10 @@ private void requestPermission(Activity activity){
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
     private void initViewPager(ViewPager viewPager, TabLayout layout){
 
@@ -160,6 +185,16 @@ private void requestPermission(Activity activity){
     }
 
     @Override
+    public void connection(IBinder service) {
+       super.connection(service);
+        Log.e(TAG, "connection: " );
+        musicBinder=(MusicService.MusicBinder)service;
+        musicBinder.getService().setOnPlayEventListener(this);
+
+
+    }
+
+    @Override
     public void pushFragment(Fragment fragment, String tag) {
         FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.push_up_in,R.anim.push_down_out,R.anim.push_up_in, R.anim.push_down_out);
@@ -171,5 +206,20 @@ private void requestPermission(Activity activity){
     @Override
     public void popFragment(String tag) {
         getSupportFragmentManager().popBackStackImmediate(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+    @Override
+    public MusicService.MusicBinder getMusicBinder() {
+        return musicBinder;
+    }
+
+    @Override
+    public void onChange(Song song) {
+        super.onChange(song);
+    }
+
+    @Override
+    public void onPublish(int progress) {
+
     }
 }

@@ -7,16 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
-import ClassCollection.Singer;
-import ClassCollection.Song;
+import classcollection.Singer;
+import classcollection.Song;
 import Utils.GlideImgManager;
 import ecnu.ecnumusic.R;
 import fragments.DayRecommnedFragment;
@@ -41,7 +38,7 @@ public class SongDetailAdapter extends RecyclerView.Adapter<SongDetailAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         String text="";
         final Song song=songList.get(position);
         String url="https://y.gtimg.cn/music/photo_new/T002R300x300M000"+song.albummid+".jpg?max_age=2592000";
@@ -70,7 +67,7 @@ public class SongDetailAdapter extends RecyclerView.Adapter<SongDetailAdapter.Vi
             @Override
             public void onClick(View v) {
                 if (mItemListener!=null){
-                    mItemListener.onItemClick(song);
+                    mItemListener.onItemClick(position,songList);
                 }
             }
         });
@@ -99,7 +96,7 @@ public class SongDetailAdapter extends RecyclerView.Adapter<SongDetailAdapter.Vi
     }
     private OnItemClickListener mItemListener;
     public interface OnItemClickListener{
-         void onItemClick(Song song);
+         void onItemClick(int position,List<Song> songs);
     }
     public void setOnItemClickListener(OnItemClickListener listener){
         mItemListener=listener;

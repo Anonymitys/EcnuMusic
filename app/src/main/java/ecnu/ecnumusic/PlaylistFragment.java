@@ -2,7 +2,10 @@ package ecnu.ecnumusic;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,7 +13,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,16 +30,38 @@ import Utils.MusicUtil;
 import Utils.ResultCallback;
 import Utils.Utility;
 import adapter.PlaylistAdapter;
+import fragments.DayRecommnedFragment;
+import jiekou.FragmentEntrust;
 import okhttp3.Request;
 import okhttp3.Response;
 import shouyeclass.PlayList;
 
-public class PlaylistActivity extends AppCompatActivity implements PlaylistAdapter.OnItemClickListener{
+public class PlaylistFragment extends Fragment implements PlaylistAdapter.OnItemClickListener{
 
-    private static final String TAG="PlaylistActivity";
+    public static final String TAG="PlaylistFragment";
     private RecyclerView playlistRecycler;
     private Toolbar toolbar;
+
+    @Nullable
     @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+       View view=inflater.inflate(R.layout.activity_playlist,container,false);
+        playlistRecycler=(RecyclerView)view.findViewById(R.id.playlist_recycler);
+        playlistRecycler.setNestedScrollingEnabled(false);
+        toolbar=(Toolbar)view.findViewById(R.id.playlist_toolbar);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initToolBar();
+        GridLayoutManager manager=new GridLayoutManager(getContext(),2);
+        playlistRecycler.setLayoutManager(manager);
+        getPlaylistRequest();
+    }
+
+ /*   @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
@@ -40,26 +69,26 @@ public class PlaylistActivity extends AppCompatActivity implements PlaylistAdapt
          playlistRecycler.setNestedScrollingEnabled(false);
          toolbar=(Toolbar)findViewById(R.id.playlist_toolbar);
          initToolBar();
-        GridLayoutManager manager=new GridLayoutManager(PlaylistActivity.this,2);
+        GridLayoutManager manager=new GridLayoutManager(getContext(),2);
         playlistRecycler.setLayoutManager(manager);
         getPlaylistRequest();
-    }
+    }*/
 
 
     private void getPlaylistRequest(){
-        MusicRequestUtil.getPlayList(this, new ResultCallback() {
+        MusicRequestUtil.getPlayList(getContext(), new ResultCallback() {
             @Override
             public void onResponse(Response response) throws IOException {
                 String text=response.body().string();
                 List<PlayList> playLists= Utility.handlePlayListResponse(text);
                 PlaylistAdapter adapter=new PlaylistAdapter(playLists);
-                adapter.setOnItemClicklistener(PlaylistActivity.this);
+                adapter.setOnItemClicklistener(PlaylistFragment.this);
                 playlistRecycler.setAdapter(adapter);
             }
 
             @Override
             public void onError(Request request, Exception ex) {
-                Toast.makeText(PlaylistActivity.this,"playlist failed",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"playlist failed",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -69,23 +98,29 @@ public class PlaylistActivity extends AppCompatActivity implements PlaylistAdapt
         Bundle bundle=new Bundle();
         bundle.putSerializable("playlist",playList);
         bundle.putString("tag","playlist");
-        Intent intent=new Intent(this,SongListDetailActivity.class);
+        Intent intent=new Intent(getContext(),SongListDetailActivity.class);
         intent.putExtra("song",bundle);
 
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,imageView,"sharedView");//与xml文件对应
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(),imageView,"sharedView");//与xml文件对应
         startActivity(intent,options.toBundle());
     }
     private void initToolBar(){
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar()!=null){
-            getSupportActionBar().setTitle("歌单");
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        setHasOptionsMenu(true);
+        ( (AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+        ( (AppCompatActivity)getActivity()).getSupportActionBar().setTitle("歌单");
+        ( (AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                ((FragmentEntrust)getActivity()).popFragment(PlaylistFragment.TAG);
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
     }
 }
