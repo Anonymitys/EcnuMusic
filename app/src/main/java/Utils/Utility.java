@@ -3,6 +3,7 @@ package Utils;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
@@ -14,6 +15,7 @@ import java.util.List;
 import classcollection.CdList;
 import classcollection.SingerList;
 import classcollection.Song;
+import shouyeclass.Album;
 import shouyeclass.PlayList;
 import shouyeclass.Shouye;
 import shouyeclass.singersong.Musics;
@@ -84,6 +86,17 @@ public class Utility {
             String singersongContent=jsonObject.getJSONArray("list").toString();
             return new Gson().fromJson(singersongContent, new TypeToken<List<Musics>>(){}.getType());
 
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<Album> handleSingerAlbumResponse(String response){
+        try{
+            JSONObject jsonObject=new JSONObject(response).getJSONObject("singerAlbum").getJSONObject("data");
+            String singerAlbumContent=jsonObject.getJSONArray("list").toString();
+            return new Gson().fromJson(singerAlbumContent,new TypeToken<List<Album>>(){}.getType());
         }catch (Exception ex){
             ex.printStackTrace();
         }

@@ -79,7 +79,6 @@ public class SongListDetailActivity extends BaseActivity implements SongDetailAd
 
     private String tag;
    private MusicService.MusicBinder musicBinder;
- //  private PlaybarFragment playbarFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,13 +125,14 @@ public class SongListDetailActivity extends BaseActivity implements SongDetailAd
             public_time.setVisibility(View.VISIBLE);
             singerMore.setVisibility(View.VISIBLE);
             public_time.setText("发行时间:"+album.public_time);
+            public_time.setText("发行时间:"+album.pub_time);
             String url="https://y.gtimg.cn/music/photo_new/T002R300x300M000"+album.album_mid+".jpg?max_age=2592000";
             String singername="歌手:"+getSingerName(album.singerList);
             setHeadInfo(url,album.album_name,singername);
         }
 
         initScrollViewListener();
-        handler.postDelayed(requestRunable,230);
+        handler.postDelayed(requestRunable,320);
 
 
     }

@@ -82,4 +82,10 @@ public class MusicRequestUtil {
                 "&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&singermid="+singermid+"&order=listen&begin=0&num=200&songstatus=1";
         OkHttpEngine.getInstance(context).getAsynHttp(url,callback);
     }
+    public static void getSingerAlbum(Context context,String singermid,ResultCallback callback){
+        String url="https://u.y.qq.com/cgi-bin/musicu.fcg?&g_tk=1878528355&hostUin=0&format=jsonp&inCharset=utf8&outCharset=utf-8&notice=0" +
+                "&platform=yqq&needNewCode=0&data={\"singerAlbum\":{\"method\":\"get_singer_album\",\"param\":{\"singermid\":\""+singermid+"\",\"order\":" +
+                "\"time\",\"begin\":0,\"num\":100,\"exstatus\":1},\"module\":\"music.web_singer_info_svr\"}}";
+        OkHttpEngine.getInstance(context).getAsynHttp(url,callback);
+    }
 }

@@ -3,6 +3,7 @@ package fragments;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -48,6 +49,7 @@ public class DayRecommnedFragment extends Fragment implements SongDetailAdapter.
     private String title,imageUrl;
     private android.support.v7.widget.Toolbar toolbar;
     private MusicService.MusicBinder musicBinder;
+    private Handler handler=new Handler();
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,8 +90,14 @@ public class DayRecommnedFragment extends Fragment implements SongDetailAdapter.
         titleView.setText(title);
         LinearLayoutManager manager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
-        getDayRecommend(String.valueOf(content_id));
+       handler.postDelayed(requestRunable,100);
     }
+    Runnable requestRunable=new Runnable() {
+        @Override
+        public void run() {
+            getDayRecommend(String.valueOf(content_id));
+        }
+    };
     private void getDayRecommend(String dissid){
         MusicRequestUtil.getDetailMusic(getContext(), dissid, new ResultCallback() {
             @Override
@@ -122,7 +130,6 @@ public class DayRecommnedFragment extends Fragment implements SongDetailAdapter.
         getActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
     private void initToolBar(){
-        setHasOptionsMenu(true);
        ( (AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         ( (AppCompatActivity)getActivity()).getSupportActionBar().setTitle("新歌推荐");
@@ -135,9 +142,4 @@ public class DayRecommnedFragment extends Fragment implements SongDetailAdapter.
         });
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-    }
 }

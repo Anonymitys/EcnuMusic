@@ -82,6 +82,8 @@ public class BaseActivity extends AppCompatActivity implements OnPlayerEventList
         super.onCreate(savedInstanceState);
         ViewGroup decorView=(ViewGroup)getWindow().getDecorView();
 
+
+
         container=(FrameLayout)((ViewGroup)decorView.getChildAt(0)).getChildAt(1);
         playbarView= LayoutInflater.from(getBaseContext()).inflate(R.layout.play_bar,null);
         playPause=(ImageView)playbarView.findViewById(R.id.play_pause_bar);
@@ -123,6 +125,12 @@ public class BaseActivity extends AppCompatActivity implements OnPlayerEventList
     protected void onStop() {
         super.onStop();
         unbindService(serviceConnection);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 
     @Override

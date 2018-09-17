@@ -6,7 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowContentTransitions">true</item>
+    </style>
+
+    <style name="SingerTheme" parent="AppTheme">
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
     <style name="TablayoutTextStyle">
         <item name="android:textSize">16sp</item>

@@ -57,6 +57,7 @@ public class SingerRecyclerAdapter extends RecyclerView.Adapter<SingerRecyclerAd
                     Intent intent=new Intent(mContext,SingerDetailActivity.class);
                     intent.putExtra("singerMid",singer.singer_mid);
                     intent.putExtra("singerPic",singer.singer_pic);
+                    intent.putExtra("singerName",singer.singer_name);
                     mActivity.startActivity(intent);
             }
         });
