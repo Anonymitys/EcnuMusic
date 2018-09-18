@@ -88,4 +88,13 @@ public class MusicRequestUtil {
                 "\"time\",\"begin\":0,\"num\":100,\"exstatus\":1},\"module\":\"music.web_singer_info_svr\"}}";
         OkHttpEngine.getInstance(context).getAsynHttp(url,callback);
     }
+
+    public static void getRank(Context context,ResultCallback callback){
+        String url="https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_opt.fcg?page=index&format=html&tpl=macv4&v8debug=1";
+        OkHttpEngine.getInstance(context).getAsynHttp(url,callback);
+    }
+    public static void getRankSong(Context context,int topID,ResultCallback callback){
+        String url="https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?topid="+topID;
+        OkHttpEngine.getInstance(context).getAsynHttp(url,callback);
+    }
 }

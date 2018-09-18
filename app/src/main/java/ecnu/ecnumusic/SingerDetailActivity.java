@@ -35,7 +35,7 @@ import jiekou.FragmentEntrust;
 import service.MusicService;
 import service.OnPlayerEventListener;
 
-public class SingerDetailActivity extends BaseActivity implements OnPlayerEventListener{
+public class SingerDetailActivity extends BaseActivity {
 
     private String singerMid,singerPic,singerName;
     private ImageView singerImage;
@@ -132,6 +132,12 @@ public class SingerDetailActivity extends BaseActivity implements OnPlayerEventL
         setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
         }
     }
 

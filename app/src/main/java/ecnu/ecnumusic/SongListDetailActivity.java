@@ -125,7 +125,10 @@ public class SongListDetailActivity extends BaseActivity implements SongDetailAd
             public_time.setVisibility(View.VISIBLE);
             singerMore.setVisibility(View.VISIBLE);
             public_time.setText("发行时间:"+album.public_time);
-            public_time.setText("发行时间:"+album.pub_time);
+            if (album.public_time==null){
+                public_time.setText("发行时间:"+album.pub_time);
+            }
+
             String url="https://y.gtimg.cn/music/photo_new/T002R300x300M000"+album.album_mid+".jpg?max_age=2592000";
             String singername="歌手:"+getSingerName(album.singerList);
             setHeadInfo(url,album.album_name,singername);
@@ -167,7 +170,7 @@ public class SongListDetailActivity extends BaseActivity implements SongDetailAd
             @Override
             public void onResponse(Response response) throws IOException {
                 String textString=response.body().string();
-                CdList list= Utility.handleCdlistResponse(SongListDetailActivity.this,textString);
+                CdList list= Utility.handleCdlistResponse(textString);
                 SongDetailAdapter adapter=new SongDetailAdapter(list.songlist,SongListDetailActivity.TAG);
                 adapter.setOnItemClickListener(SongListDetailActivity.this);
                 recyclerView.setAdapter(adapter);

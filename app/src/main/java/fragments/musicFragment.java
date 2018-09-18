@@ -109,7 +109,8 @@ public class musicFragment extends Fragment implements View.OnClickListener, Rec
                 ((FragmentEntrust)getActivity()).pushFragment(playlistFragment,PlaylistFragment.TAG);
                 break;
             case R.id.ll_rank_list:
-                Toast.makeText(getContext(),"ranklist",Toast.LENGTH_SHORT).show();
+                 RankFragment rankFragment=new RankFragment();
+                ((FragmentEntrust)getActivity()).pushFragment(rankFragment,RankFragment.TAG);
                 break;
             case R.id.ll_recommend_songlist:
                 ((FragmentEntrust)getActivity()).pushFragment(playlistFragment,PlaylistFragment.TAG);

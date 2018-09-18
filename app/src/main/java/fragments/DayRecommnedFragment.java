@@ -103,7 +103,7 @@ public class DayRecommnedFragment extends Fragment implements SongDetailAdapter.
             @Override
             public void onResponse(Response response) throws IOException {
                 String textString=response.body().string();
-                CdList list= Utility.handleCdlistResponse(getContext(),textString);
+                CdList list= Utility.handleCdlistResponse(textString);
                 SongDetailAdapter adapter=new SongDetailAdapter(list.songlist,DayRecommnedFragment.TAG);
                 adapter.setOnItemClickListener(DayRecommnedFragment.this);
                 recyclerView.setAdapter(adapter);

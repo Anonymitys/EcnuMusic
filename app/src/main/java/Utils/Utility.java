@@ -18,13 +18,15 @@ import classcollection.Song;
 import shouyeclass.Album;
 import shouyeclass.PlayList;
 import shouyeclass.Shouye;
+import shouyeclass.rank.Rank;
+import shouyeclass.rank.SongData;
 import shouyeclass.singersong.Musics;
 
 
 public class Utility {
     public static final String TAG="Utility";
 
-    public static CdList handleCdlistResponse(Context context, String response) {
+    public static CdList handleCdlistResponse( String response) {
         int first = response.indexOf('(');
         int last = response.lastIndexOf(')');
 
@@ -97,6 +99,31 @@ public class Utility {
             JSONObject jsonObject=new JSONObject(response).getJSONObject("singerAlbum").getJSONObject("data");
             String singerAlbumContent=jsonObject.getJSONArray("list").toString();
             return new Gson().fromJson(singerAlbumContent,new TypeToken<List<Album>>(){}.getType());
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+    public static List<Rank> handleRankResponse(String response){
+        int first = response.indexOf('(');
+        int last = response.lastIndexOf(')');
+
+        response = response.substring(first + 1, last);
+        try {
+            JSONArray array = new JSONArray(response);
+            String rankContent = array.toString();
+            return new Gson().fromJson(rankContent,new TypeToken<List<Rank>>(){}.getType());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<SongData> handleRankSongResponse(String response){
+        try{
+            JSONObject jsonObject=new JSONObject(response);
+            JSONArray jsonArray=jsonObject.getJSONArray("songlist");
+            return new Gson().fromJson(jsonArray.toString(),new TypeToken<List<SongData>>(){}.getType());
         }catch (Exception ex){
             ex.printStackTrace();
         }

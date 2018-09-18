@@ -15,18 +15,26 @@ import java.util.List;
 import classcollection.Singer;
 import classcollection.Song;
 import ecnu.ecnumusic.R;
+import shouyeclass.rank.SongData;
 import shouyeclass.singersong.MusicData;
 import shouyeclass.singersong.Musics;
 
 public class SingerSongRecyclerAdapter extends RecyclerView.Adapter<SingerSongRecyclerAdapter.ViewHolder> {
     private List<Musics> musics;
     private List<Song> songList;
+    private List<SongData> songDataList;
     private Context context;
     private OnItemClickListener onItemClickListener;
+    private String songTag="ecnu";
 
     public SingerSongRecyclerAdapter(List<Musics> musicsList){
         this.musics=musicsList;
         songList=new ArrayList<>();
+    }
+    public SingerSongRecyclerAdapter(List<SongData> musicData, String tag){
+        songDataList=musicData;
+        songList=new ArrayList<>();
+        songTag=tag;
     }
     @NonNull
     @Override
@@ -41,7 +49,12 @@ public class SingerSongRecyclerAdapter extends RecyclerView.Adapter<SingerSongRe
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         String text="";
-        Song musicData=musics.get(position).musciData;
+        Song musicData;
+        if (songTag.equals("RankSongActivity")){
+            musicData=songDataList.get(position).song;
+        }else {
+            musicData=musics.get(position).musciData;
+        }
         songList.add(musicData);
         holder.positionTextview.setText(String.valueOf(position+1));
         holder.songname.setText(musicData.songname);
@@ -67,6 +80,9 @@ public class SingerSongRecyclerAdapter extends RecyclerView.Adapter<SingerSongRe
 
     @Override
     public int getItemCount() {
+        if (songTag.equals("RankSongActivity")){
+            return songDataList.size();
+        }
         return musics.size();
     }
     class ViewHolder extends RecyclerView.ViewHolder{
