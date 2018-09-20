@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_song_item"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+    <LinearLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/songname_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="helloworld"/>
+        <TextView
+            android:layout_marginTop="5dp"
+            android:id="@+id/singername_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="10sp"
+            android:text="hello"/>
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/more_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="更多版本"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#3a000000"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

@@ -40,15 +40,9 @@ import fragments.VideoFragment;
 import fragments.musicFragment;
 
 public class MainActivity extends BaseActivity implements FragmentEntrust, OnPlayerEventListener{
-    private boolean isPlay=false;
-    private boolean isLike=false;
-    private ImageView playImage;
-    private ImageView likeImage;
-    private LinearLayout linearLayout;
-   private CircleView circleView;
+    private ImageView searchButton;
     private ViewPager pager;
     private TabLayout tabLayout;
-    private LinearLayout container;
 
     private MusicService.MusicBinder musicBinder;
     private static final String TAG="MainActivity";
@@ -60,10 +54,9 @@ public class MainActivity extends BaseActivity implements FragmentEntrust, OnPla
         // getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_main);
         StatusBarUtil.addStatusBarView(this,getResources().getColor(R.color.colorPrimary));
-        playImage=(ImageView)findViewById(R.id.play_pause_bar);
-        likeImage=(ImageView)findViewById(R.id.play_list_bar);
-        linearLayout=(LinearLayout)findViewById(R.id.bottom_paly_bar);
-        circleView=(CircleView)findViewById(R.id.circle_view);
+       searchButton=(ImageView)findViewById(R.id.search_button) ;
+       searchButton.setOnClickListener(this);
+
         pager=(ViewPager)findViewById(R.id.view_pager);
         tabLayout=(TabLayout)findViewById(R.id.tab_layout);
 
@@ -72,43 +65,21 @@ public class MainActivity extends BaseActivity implements FragmentEntrust, OnPla
         requestPermission(this);
     }
 
-   /* @Override
+
+
+   @Override
     public void onClick(View v) {
+        super.onClick(v);
         switch (v.getId()){
-            case R.id.play_pause_bar:
-                if(!isPlay){
-                    isPlay=true;
-                    playImage.setBackground(getDrawable(R.drawable.play));
-                    circleView.setVisibility(View.VISIBLE);
-                     circleView.setPause(false);
-                     circleView.setBackColorTransparent(false);
-                     circleView.setDuration(10);
-                    circleView.invalidate();
-
-                }else {
-                    isPlay=false;
-                   playImage.setBackground(getDrawable(R.drawable.pause));
-                  circleView.setBackColorTransparent(true);
-                   circleView.setPause(true);
-                    circleView.invalidate();
-
-                }
+            case R.id.search_button:
+              Intent intent=new Intent(MainActivity.this,SearchActivity.class);
+              startActivity(intent);
                 break;
-            case R.id.play_list_bar:
-                if(!isLike){
-                    isLike=true;
-                   likeImage.setBackground(getDrawable(R.drawable.like));
-                }else {
-                    isLike=false;
-                   likeImage.setBackground(getDrawable(R.drawable.not_like));
 
-                }
-                break;
-            case R.id.bottom_paly_bar:
-                break;
+
         }
 
-    }*/
+    }
 
     @Override
     protected void onStop() {
@@ -122,11 +93,7 @@ public class MainActivity extends BaseActivity implements FragmentEntrust, OnPla
 
     }
 
-    private void setListener(){
-        playImage.setOnClickListener(this);
-        likeImage.setOnClickListener(this);
-        linearLayout.setOnClickListener(this);
-    }
+
 private void requestPermission(Activity activity){
     if(ContextCompat.checkSelfPermission(activity, android.Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
         ActivityCompat.requestPermissions(activity,new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},1);
@@ -216,6 +183,11 @@ private void requestPermission(Activity activity){
     @Override
     public void onChange(Song song) {
         super.onChange(song);
+    }
+
+    @Override
+    public void onPlayerStart() {
+        super.onPlayerStart();
     }
 
     @Override

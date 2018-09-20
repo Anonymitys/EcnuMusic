@@ -97,4 +97,11 @@ public class MusicRequestUtil {
         String url="https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?topid="+topID;
         OkHttpEngine.getInstance(context).getAsynHttp(url,callback);
     }
+
+    public static void getSearchSong(Context context,String keyword,ResultCallback callback){
+        String url="https://c.y.qq.com/soso/fcgi-bin/client_search_cp?ct=24&qqmusic_ver=1298&new_json=1&remoteplace=txt.yqq.center&" +
+                "searchid=37602803789127241&t=0&aggr=1&cr=1&catZhida=1&lossless=0&flag_qc=0&p=1&n=100&w="+keyword+"&g_tk=5381&format=json&inCharset=utf8" +
+                "&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0";
+        OkHttpEngine.getInstance(context).getAsynHttp(url,callback);
+    }
 }

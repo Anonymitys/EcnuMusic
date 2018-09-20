@@ -20,6 +20,7 @@ import shouyeclass.PlayList;
 import shouyeclass.Shouye;
 import shouyeclass.rank.Rank;
 import shouyeclass.rank.SongData;
+import shouyeclass.searchsong.SongSearch;
 import shouyeclass.singersong.Musics;
 
 
@@ -124,6 +125,16 @@ public class Utility {
             JSONObject jsonObject=new JSONObject(response);
             JSONArray jsonArray=jsonObject.getJSONArray("songlist");
             return new Gson().fromJson(jsonArray.toString(),new TypeToken<List<SongData>>(){}.getType());
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public static SongSearch handleSongSearchResponse(String response){
+        try{
+            JSONObject jsonObject=new JSONObject(response).getJSONObject("data");
+            return new Gson().fromJson(jsonObject.toString(),SongSearch.class);
         }catch (Exception ex){
             ex.printStackTrace();
         }

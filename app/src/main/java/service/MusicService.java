@@ -95,6 +95,24 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
                currentPosition=currentPosition+1;
            }
         }
+        public void playSong(Song song){
+            String url="http://ws.stream.qqmusic.qq.com/C100"+song.songmid+".m4a?fromtag=0&guid=126548448";
+
+            if (!lastUrl.equals(url)){
+
+                musicList.add(currentPosition+1,song);
+                try{
+                    mediaPlayer.reset();
+                    mediaPlayer.setDataSource(url);
+                    mediaPlayer.prepareAsync();
+
+                }catch (IOException ex){
+                    ex.printStackTrace();
+                }
+                lastUrl=url;
+                listener.onChange(song);
+            }
+        }
     }
     private void playFromURI(Song song){
         String url="http://ws.stream.qqmusic.qq.com/C100"+song.songmid+".m4a?fromtag=0&guid=126548448";

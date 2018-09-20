@@ -36,5 +36,5 @@ dependencies {
     implementation 'com.youth.banner:banner:1.4.10'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'jp.wasabeef:glide-transformations:2.0.1'
-    implementation 'ywl.ywl5320:libmusic:1.1.1'
+
 }

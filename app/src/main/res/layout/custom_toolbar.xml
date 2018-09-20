@@ -25,8 +25,10 @@
         android:layout_marginRight="45dp">
     </android.support.design.widget.TabLayout>
     <ImageView
+        android:id="@+id/search_button"
         android:layout_width="25dp"
         android:layout_height="25dp"
+        android:background="@drawable/bg_click"
         android:src="@drawable/search"/>
 
 </LinearLayout>

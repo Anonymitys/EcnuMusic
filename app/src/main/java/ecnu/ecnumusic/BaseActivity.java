@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -99,7 +100,7 @@ public class BaseActivity extends AppCompatActivity implements OnPlayerEventList
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         FrameLayout.LayoutParams layoutParams=new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.gravity= Gravity.BOTTOM;
+        layoutParams.gravity=Gravity.BOTTOM;
         container.addView(playbarView,layoutParams);
         playbarView.setVisibility(View.GONE);
     }
