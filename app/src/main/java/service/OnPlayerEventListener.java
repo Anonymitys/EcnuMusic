@@ -1,5 +1,6 @@
 package service;
 
+import classcollection.Music;
 import classcollection.Song;
 
 
@@ -12,7 +13,7 @@ public interface OnPlayerEventListener {
     /**
      * 切换歌曲
      */
-    void onChange(Song song);
+    void onChange(Song song, Music music);
 
     /**
      * 继续播放

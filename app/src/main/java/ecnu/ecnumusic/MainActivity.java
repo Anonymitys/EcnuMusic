@@ -29,6 +29,7 @@ import java.util.List;
 
 import Utils.StatusBarUtil;
 import adapter.FragmentAdapter;
+import classcollection.Music;
 import classcollection.Song;
 import fragments.PlaybarFragment;
 import jiekou.FragmentEntrust;
@@ -181,8 +182,8 @@ private void requestPermission(Activity activity){
     }
 
     @Override
-    public void onChange(Song song) {
-        super.onChange(song);
+    public void onChange(Song song, Music music) {
+        super.onChange(song,music);
     }
 
     @Override

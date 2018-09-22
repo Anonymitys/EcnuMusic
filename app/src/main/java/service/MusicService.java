@@ -32,8 +32,9 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private MusicBinder musicBinder=new MusicBinder();
     private MediaPlayer mediaPlayer;
     private String lastUrl="ecnu";
+    private String lastPath="ecnu";
     private List<Song> musicList;
-    private int currentPosition;
+    private int currentPosition=-1;
     private OnPlayerEventListener listener;
 
 
@@ -67,13 +68,16 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         public int getCurrentPosition(){
             return currentPosition;
         }
+        public void setCurrentPosition(int position){
+            currentPosition=position;
+        }
         public void playFromURL(int position,List<Song> songs){
             currentPosition=position;
             Song song=songs.get(position);
             musicList.clear();
             musicList.addAll(songs);
 
-             playFromURI(song);
+            playFromURI(song);
 
         }
         public void playPause(){
@@ -96,11 +100,16 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
            }
         }
         public void playSong(Song song){
-            String url="http://ws.stream.qqmusic.qq.com/C100"+song.songmid+".m4a?fromtag=0&guid=126548448";
 
+                currentPosition=currentPosition+1;
+                musicList.add(currentPosition,song);
+                playFromURI(song);
+        }
+
+        public void playFromURI(Song song){
+            String url="http://ws.stream.qqmusic.qq.com/C100"+song.songmid+".m4a?fromtag=0&guid=126548448";
             if (!lastUrl.equals(url)){
 
-                musicList.add(currentPosition+1,song);
                 try{
                     mediaPlayer.reset();
                     mediaPlayer.setDataSource(url);
@@ -110,26 +119,27 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
                     ex.printStackTrace();
                 }
                 lastUrl=url;
-                listener.onChange(song);
+                listener.onChange(song,null);
+            }
+        }
+        public void playLocalSong(Music music){
+            String path=music.getPath();
+            if (!lastPath.equals(path)){
+
+                try{
+                    mediaPlayer.reset();
+                    mediaPlayer.setDataSource(path);
+                    mediaPlayer.prepareAsync();
+
+                }catch (IOException ex){
+                    ex.printStackTrace();
+                }
+                lastPath=path;
+                listener.onChange(null,music);
             }
         }
     }
-    private void playFromURI(Song song){
-        String url="http://ws.stream.qqmusic.qq.com/C100"+song.songmid+".m4a?fromtag=0&guid=126548448";
-        if (!lastUrl.equals(url)){
 
-            try{
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(url);
-                mediaPlayer.prepareAsync();
-
-            }catch (IOException ex){
-                ex.printStackTrace();
-            }
-            lastUrl=url;
-            listener.onChange(song);
-      }
-    }
     @Override
     public void onPrepared(MediaPlayer mp) {
         mediaPlayer.start();

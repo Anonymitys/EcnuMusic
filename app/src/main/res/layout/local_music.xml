@@ -12,21 +12,55 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
     </android.support.v7.widget.Toolbar>
-    <android.support.design.widget.TabLayout
-        android:id="@+id/localmusic_tablayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-       app:tabTextColor="#b4ffffff"
-        app:tabSelectedTextColor="#ffffff"
-        app:tabIndicatorColor="#ffffff"
-        app:tabTextAppearance="@style/TablayoutTextStyle">
-    </android.support.design.widget.TabLayout>
-    <android.support.v4.view.ViewPager
-        android:id="@+id/localmusic_viewpager"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="5dp">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/play_all"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="播放全部"
+            android:textSize="16sp"
+            android:textColor="#000"/>
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/choose_all"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="多选"
+                android:textSize="12sp"
+                android:textColor="@color/blackColor"/>
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#1e000000"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/song_recyclerview"
+        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </android.support.v4.view.ViewPager>
+
+    </android.support.v7.widget.RecyclerView>
 
 
 </LinearLayout>

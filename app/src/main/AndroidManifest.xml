@@ -24,7 +24,6 @@
         <activity
             android:name=".LocalMusic"
             android:label="本地音乐" />
-        <activity android:name=".PlayActivity" />
         <activity android:name=".SongListDetailActivity" />
 
         <provider

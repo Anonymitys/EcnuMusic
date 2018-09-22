@@ -40,7 +40,8 @@
         android:text="更多版本"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"/>
+        android:layout_marginRight="20dp"
+        android:visibility="gone"/>
 
     <View
         android:layout_width="match_parent"

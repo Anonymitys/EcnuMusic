@@ -24,6 +24,7 @@ import Utils.MusicRequestUtil;
 import Utils.ResultCallback;
 import Utils.Utility;
 import adapter.SearchAdapter;
+import classcollection.Music;
 import classcollection.Song;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -105,8 +106,8 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnItem
     }
 
     @Override
-    public void onChange(Song song) {
-        super.onChange(song);
+    public void onChange(Song song, Music music) {
+        super.onChange(song,music);
     }
 
     @Override

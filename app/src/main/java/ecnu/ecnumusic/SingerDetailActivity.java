@@ -23,6 +23,7 @@ import java.util.List;
 
 import Utils.GlideImgManager;
 import adapter.SingerFragmentAdapter;
+import classcollection.Music;
 import classcollection.Song;
 import fragments.SingerAlbumFragment;
 import fragments.SingerAmericaFragment;
@@ -88,8 +89,8 @@ public class SingerDetailActivity extends BaseActivity {
     }
 
     @Override
-    public void onChange(Song song) {
-        super.onChange(song);
+    public void onChange(Song song, Music music) {
+        super.onChange(song,music);
     }
 
     @Override
@@ -103,13 +104,13 @@ public class SingerDetailActivity extends BaseActivity {
 
         fragmentList.add(new SingerSongFragment());
         fragmentList.add(new SingerAlbumFragment());
-        fragmentList.add(new SingerAmericaFragment());
-        fragmentList.add(new SingerKoreaFragment());
+      //  fragmentList.add(new SingerAmericaFragment());
+       // fragmentList.add(new SingerKoreaFragment());
 
         titleList.add("歌曲");
         titleList.add("专辑");
-        titleList.add("MV");
-        titleList.add("详情");
+     //   titleList.add("MV");
+      //  titleList.add("详情");
         SingerFragmentAdapter adapter=new SingerFragmentAdapter(getSupportFragmentManager(),fragmentList,titleList);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

@@ -24,6 +24,7 @@ import Utils.MusicRequestUtil;
 import Utils.ResultCallback;
 import Utils.Utility;
 import adapter.SingerSongRecyclerAdapter;
+import classcollection.Music;
 import classcollection.Song;
 import fragments.BaseFragment;
 import okhttp3.Request;
@@ -74,8 +75,8 @@ public class RankSongActivity extends BaseActivity implements SingerSongRecycler
     }
 
     @Override
-    public void onChange(Song song) {
-        super.onChange(song);
+    public void onChange(Song song, Music music) {
+        super.onChange(song,music);
     }
 
     @Override
@@ -119,6 +120,7 @@ public class RankSongActivity extends BaseActivity implements SingerSongRecycler
 
     @Override
     public void onItemClick(int position, List<Song> songs) {
+        Log.e(TAG, "onItemClick: "+songs.get(position).songmid );
         musicBinder.playFromURL(position,songs);
     }
 }

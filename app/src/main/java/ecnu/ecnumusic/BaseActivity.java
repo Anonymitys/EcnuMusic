@@ -1,8 +1,11 @@
 package ecnu.ecnumusic;
 
+import android.app.Dialog;
 import android.content.ComponentName;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -14,12 +17,15 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Adapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -28,12 +34,15 @@ import android.widget.TextView;
 import java.util.List;
 
 import Utils.GlideImgManager;
+import Utils.MusicUtil;
+import adapter.DialogAdapter;
+import classcollection.Music;
 import classcollection.Song;
 import service.MusicService;
 import service.OnPlayerEventListener;
 import widget.CircleView;
 
-public class BaseActivity extends AppCompatActivity implements OnPlayerEventListener,View.OnClickListener{
+public class BaseActivity extends AppCompatActivity implements OnPlayerEventListener,View.OnClickListener,DialogAdapter.OnItemClickListener{
 
     private static final String TAG = "BaseActivity";
     private MusicService.MusicBinder musicBinder;
@@ -44,6 +53,7 @@ public class BaseActivity extends AppCompatActivity implements OnPlayerEventList
     private TextView songName,songLyrics;
     private CircleView circleView;
     private Handler handler=new Handler();
+    private DialogAdapter adapter;
 
     private ServiceConnection serviceConnection=new ServiceConnection() {
         @Override
@@ -141,7 +151,8 @@ public class BaseActivity extends AppCompatActivity implements OnPlayerEventList
                 onPlayPauseClick();
                 break;
             case R.id.play_list_bar:
-                onPlayListClick();
+              //  onPlayListClick();
+                showBottomDialog();
                 break;
         }
     }
@@ -163,15 +174,24 @@ public class BaseActivity extends AppCompatActivity implements OnPlayerEventList
     }
 
     @Override
-    public void onChange(Song song) {
+    public void onChange(Song song, Music music) {
+        if (song!=null){
+            String url="https://y.gtimg.cn/music/photo_new/T002R300x300M000"+song.albummid+".jpg?max_age=2592000";
+            songName.setText(song.songname);
+            GlideImgManager.glideLoaderCircle(this,url,R.drawable.album,R.drawable.album,
+                    songImage);
+
+        }else{
+            Log.e(TAG, "localMusic onChange: "+music.getTitle() );
+            songName.setText(music.getTitle());
+            GlideImgManager.glideLoaderCircle(this, MusicUtil.getAlbumArt(this,music.getAlbum_id()),R.drawable.album,R.drawable.album,
+                    songImage);
+        }
         playbarView.setVisibility(View.VISIBLE);
-        String url="https://y.gtimg.cn/music/photo_new/T002R300x300M000"+song.albummid+".jpg?max_age=2592000";
-        songName.setText(song.songname);
-        GlideImgManager.glideLoaderCircle(this,url,R.drawable.album,R.drawable.album,
-                songImage);
         playPause.setBackground(getDrawable(R.drawable.play));
         circleView.setVisibility(View.VISIBLE);
         circleView.setCurrentAngle(0f);
+
     }
 
     @Override
@@ -212,4 +232,32 @@ public class BaseActivity extends AppCompatActivity implements OnPlayerEventList
             }
         }
     };
+
+    private void showBottomDialog(){
+        Dialog dialog=new Dialog(this,R.style.BottomDialog);
+        View view=LayoutInflater.from(this).inflate(R.layout.dialog_musiclist,null);
+        dialog.setContentView(view);
+        RecyclerView recyclerView=view.findViewById(R.id.dialog_recycler);
+        LinearLayoutManager manager=new LinearLayoutManager(getBaseContext());
+        recyclerView.setLayoutManager(manager);
+        adapter=new DialogAdapter(musicBinder.getMusicList(),musicBinder.getCurrentPosition());
+        adapter.setOnItemClickListener(this);
+        recyclerView.setAdapter(adapter);
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.width = getResources().getDisplayMetrics().widthPixels;
+        layoutParams.height=(int)(getResources().getDisplayMetrics().heightPixels*0.6);
+        view.setLayoutParams(layoutParams);
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
+        dialog.show();
+    }
+
+    @Override
+    public void onItemClick(int position, Song song) {
+        musicBinder.setCurrentPosition(position);
+        musicBinder.playFromURI(song);
+
+    }
+
+
 }

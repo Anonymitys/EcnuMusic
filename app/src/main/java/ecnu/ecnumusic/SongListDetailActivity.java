@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.util.List;
 
 import classcollection.CdList;
+import classcollection.Music;
 import classcollection.Singer;
 import classcollection.Song;
 import Utils.GlideImgManager;
@@ -363,8 +364,8 @@ public class SongListDetailActivity extends BaseActivity implements SongDetailAd
    }
 
     @Override
-    public void onChange(Song song) {
-        super.onChange(song);
+    public void onChange(Song song, Music music) {
+        super.onChange(song,music);
     }
 
     @Override

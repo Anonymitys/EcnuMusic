@@ -102,7 +102,7 @@ public class SearchAdapter extends RecyclerView.Adapter {
             if (searchSong.grpList.size()==0){
                 songHolder.moreView.setVisibility(View.GONE);
             }else{
-                songHolder.moreView.setVisibility(View.VISIBLE);
+                songHolder.moreView.setVisibility(View.GONE);
             }
             songHolder.songView.setText(searchSong.title);
             for(Singer singer:searchSong.singerList){

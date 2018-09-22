@@ -1,35 +1,37 @@
 package ecnu.ecnumusic;
 
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.os.IBinder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
-import adapter.LocalMusicFragmentAdapter;
-import fragments.AlbumFragment;
-import fragments.FileFragment;
-import fragments.SingerFragment;
-import fragments.SongFragment;
+import Utils.MusicUtil;
+import adapter.LocalMusicRecyclerViewAdapter;
+import classcollection.Music;
+import classcollection.Song;
+import service.MusicService;
 
-public class LocalMusic extends AppCompatActivity {
+public class LocalMusic extends BaseActivity implements LocalMusicRecyclerViewAdapter.OnLocalMusicItemClickListener{
 
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
+   private RecyclerView recyclerView;
+   private List<Music> musicList;
+   private MusicService.MusicBinder musicBinder;
+   private static final String TAG="LocalMusic";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.local_music);
-        mTabLayout=(TabLayout)findViewById(R.id.localmusic_tablayout);
-        mViewPager=(ViewPager)findViewById(R.id.localmusic_viewpager);
-        initPagerView();
+       recyclerView=(RecyclerView)findViewById(R.id.song_recyclerview);
+       musicList= MusicUtil.getMusic(this);
+        initRecyclerView();
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.local_toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar=getSupportActionBar();
@@ -37,6 +39,22 @@ public class LocalMusic extends AppCompatActivity {
            actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+    }
+
+    @Override
+    public void connection(IBinder service) {
+        super.connection(service);
+        musicBinder=(MusicService.MusicBinder)service;
+    }
+
+    @Override
+    public void onPlayerStart() {
+        super.onPlayerStart();
+    }
+
+    @Override
+    public void onChange(Song song,Music music) {
+        super.onChange(song,music);
     }
 
     @Override
@@ -73,22 +91,19 @@ public class LocalMusic extends AppCompatActivity {
         return super.onMenuOpened(featureId, menu);
     }
 
-    private void initPagerView(){
-        List<Fragment> fragments=new ArrayList<>();
-        fragments.add(new SongFragment());
-        fragments.add(new SingerFragment());
-        fragments.add(new AlbumFragment());
-        fragments.add(new FileFragment());
-        List<String> titles=new ArrayList<>();
-        titles.add("单曲");
-        titles.add("歌手");
-        titles.add("专辑");
-        titles.add("文件夹");
-        LocalMusicFragmentAdapter adapter=new LocalMusicFragmentAdapter(getSupportFragmentManager(),fragments,titles);
-        mViewPager.setAdapter(adapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+    private void initRecyclerView(){
+        LinearLayoutManager manager=new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
+        LocalMusicRecyclerViewAdapter adapter=new LocalMusicRecyclerViewAdapter(musicList);
+        adapter.setLocalMusicItemClickListener(this);
+        recyclerView.setAdapter(adapter);
     }
 
 
+    @Override
+    public void onItemClick(Music music) {
+        Log.e(TAG, "onItemClick: "+music.getPath() );
+        musicBinder.playLocalSong(music);
+    }
 }
 

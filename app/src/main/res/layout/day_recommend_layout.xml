@@ -58,11 +58,13 @@
          </RelativeLayout>
          <RelativeLayout
              android:layout_width="match_parent"
-             android:layout_height="wrap_content">
+             android:layout_height="wrap_content"
+             android:layout_marginBottom="60dp">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/day_recommend"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
          </RelativeLayout>
       </LinearLayout>
    </ScrollView>
