@@ -102,6 +102,7 @@ public class RankSongActivity extends BaseActivity implements SingerSongRecycler
             @Override
             public void onResponse(Response response) throws IOException {
                 String responseText=response.body().string();
+                Log.e(TAG, "onResponse: "+responseText );
                 List<SongData> songDataList= Utility.handleRankSongResponse(responseText);
                 LinearLayoutManager manager=new LinearLayoutManager(RankSongActivity.this);
                 recyclerView.setLayoutManager(manager);

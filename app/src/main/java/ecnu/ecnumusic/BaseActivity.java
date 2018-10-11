@@ -52,7 +52,7 @@ public class BaseActivity extends AppCompatActivity implements OnPlayerEventList
     private ImageView playPause,playList,songImage;
     private TextView songName,songLyrics;
     private CircleView circleView;
-    private Handler handler=new Handler();
+   private Handler handler=new Handler();
     private DialogAdapter adapter;
 
     private ServiceConnection serviceConnection=new ServiceConnection() {
