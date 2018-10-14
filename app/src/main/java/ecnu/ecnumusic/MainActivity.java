@@ -15,9 +15,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -41,9 +43,10 @@ import fragments.VideoFragment;
 import fragments.musicFragment;
 
 public class MainActivity extends BaseActivity implements FragmentEntrust, OnPlayerEventListener{
-    private ImageView searchButton;
+    private ImageView searchButton,homeButton;
     private ViewPager pager;
     private TabLayout tabLayout;
+    private DrawerLayout layout;
 
     private MusicService.MusicBinder musicBinder;
     private static final String TAG="MainActivity";
@@ -55,9 +58,11 @@ public class MainActivity extends BaseActivity implements FragmentEntrust, OnPla
         // getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_main);
         StatusBarUtil.addStatusBarView(this,getResources().getColor(R.color.colorPrimary));
+        layout=(DrawerLayout)findViewById(R.id.drawer_layout);
        searchButton=(ImageView)findViewById(R.id.search_button) ;
+       homeButton=(ImageView)findViewById(R.id.home_button);
        searchButton.setOnClickListener(this);
-
+        homeButton.setOnClickListener(this);
         pager=(ViewPager)findViewById(R.id.view_pager);
         tabLayout=(TabLayout)findViewById(R.id.tab_layout);
 
@@ -76,7 +81,9 @@ public class MainActivity extends BaseActivity implements FragmentEntrust, OnPla
               Intent intent=new Intent(MainActivity.this,SearchActivity.class);
               startActivity(intent);
                 break;
-
+            case R.id.home_button:
+                layout.openDrawer(Gravity.START);
+                break;
 
         }
 
