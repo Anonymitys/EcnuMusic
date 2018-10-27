@@ -7,11 +7,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Scroller;
+
+import java.util.ArrayList;
 
 import ecnu.ecnumusic.R;
 
-public class CircleView extends View {
+public class CircleView extends View{
     private Paint backPaint=new Paint();
     private Paint forePaint=new Paint();
     private int backColor;
@@ -30,6 +34,8 @@ public class CircleView extends View {
         super(context,attrs);
         init(context,attrs);
     }
+
+
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -79,4 +85,6 @@ public class CircleView extends View {
     public void setCurrentAngle(float angle){
         this.currentAngle=angle*360/duration;
     }
+
+
 }

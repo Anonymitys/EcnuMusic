@@ -1,6 +1,7 @@
 package fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -25,6 +26,7 @@ public class SingerListFragment extends Fragment {
     private ViewPager singerlistViewPager;
     private Toolbar singerlistToolbar;
     private TabLayout tabLayout;
+    private Handler handler=new Handler();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,7 +42,12 @@ public class SingerListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initToolbar();
-        initViewPager();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initViewPager();
+            }
+        },300);
     }
 
     private void initViewPager(){
@@ -60,6 +67,7 @@ public class SingerListFragment extends Fragment {
         titleList.add("日本");
         SingerFragmentAdapter adapter=new SingerFragmentAdapter(getActivity().getSupportFragmentManager(),fragmentList,titleList);
         singerlistViewPager.setAdapter(adapter);
+      //  singerlistViewPager.setOffscreenPageLimit(5);
         tabLayout.setupWithViewPager(singerlistViewPager);
     }
     private void initToolbar(){

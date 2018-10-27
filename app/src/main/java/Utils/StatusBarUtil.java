@@ -19,7 +19,8 @@ public class StatusBarUtil {
         return result;
     }
     public static void addStatusBarView(Activity activity,int color){
-        ViewGroup rootView=(ViewGroup)activity.findViewById(android.R.id.content);
+        ViewGroup rootView=(ViewGroup)activity.getWindow().findViewById(android.R.id.content);
+       // ViewGroup rootView=(ViewGroup)activity.findViewById(android.R.id.content);
 
         ViewGroup rootLayout=(ViewGroup) rootView.getChildAt(0);
         View parentView=rootLayout.getChildAt(0);

@@ -25,7 +25,7 @@ public class SingerJapanFragment extends BaseFragment {
 
     @Override
     protected void onLazyLoad() {
-        initRequest();
+      //  initRequest();
     }
 
     @Override
@@ -35,7 +35,7 @@ public class SingerJapanFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        super.initData();
+      initRequest();
     }
 
     private void initRequest(){

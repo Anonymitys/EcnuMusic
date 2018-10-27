@@ -21,7 +21,7 @@ import okhttp3.Response;
 public class SingerNeidiFragment extends BaseFragment {
 
     private RecyclerView singerRecycler;
-    private boolean isFirst=true;
+
     @Override
     protected int setContentId() {
         return R.layout.singer_detail;
@@ -29,7 +29,7 @@ public class SingerNeidiFragment extends BaseFragment {
 
     @Override
     protected void onLazyLoad() {
-       initRequest();
+      // initRequest();
     }
 
     @Override
@@ -39,10 +39,9 @@ public class SingerNeidiFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        if (isFirst){
+
             initRequest();
-            isFirst=false;
-        }
+
 
     }
 

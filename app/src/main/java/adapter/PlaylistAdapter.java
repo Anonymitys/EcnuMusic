@@ -28,15 +28,21 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         return playLists.size();
     }
 
-    @NonNull
+
+
+
+     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (mContext==null){
             mContext=parent.getContext();
         }
-        View view= LayoutInflater.from(mContext).inflate(R.layout.playlist_item,parent,false);
 
-        return new ViewHolder(view);
+            View view= LayoutInflater.from(mContext).inflate(R.layout.playlist_item,parent,false);
+            return new ViewHolder(view);
+
+
+
     }
 
     @Override

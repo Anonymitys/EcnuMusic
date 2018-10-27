@@ -71,8 +71,6 @@ public class MainActivity extends BaseActivity implements FragmentEntrust, OnPla
         requestPermission(this);
     }
 
-
-
    @Override
     public void onClick(View v) {
         super.onClick(v);

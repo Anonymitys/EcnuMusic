@@ -104,6 +104,7 @@ public class BaseActivity extends AppCompatActivity implements OnPlayerEventList
         songLyrics=(TextView)playbarView.findViewById(R.id.playbar_lyrics);
         circleView=(CircleView)playbarView.findViewById(R.id.circle_view);
 
+
     }
 
     @Override

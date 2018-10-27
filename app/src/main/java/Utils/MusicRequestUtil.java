@@ -27,8 +27,10 @@ public class MusicRequestUtil {
         OkHttpEngine.getInstance(context).getAsynHttp(url,callback);
     }
 
-    public static void getPlayList(Context context,ResultCallback callback){
-        String url="https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg?picmid=1&rnd=0.3762366600200149&g_tk=5381&format=jsonp&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&categoryId=10000000&sortId=5&sin=0&ein=100";
+    public static void getPlayList(int count,Context context,ResultCallback callback){
+        int start=80*count;
+        int end=80*(count+1)-1;
+        String url="https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg?picmid=1&rnd=0.3762366600200149&g_tk=5381&format=jsonp&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&categoryId=10000000&sortId=5&sin="+start+"&ein="+end;
         String header="https://y.qq.com/portal/playlist.html";
         OkHttpEngine.getInstance(context).getAsynHttp(url,header,callback);
     }

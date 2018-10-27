@@ -4,12 +4,10 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,18 +17,17 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import Utils.MusicRequestUtil;
-import Utils.MusicUtil;
 import Utils.ResultCallback;
 import Utils.Utility;
 import adapter.PlaylistAdapter;
-import fragments.DayRecommnedFragment;
+import adapter.WrapAdapter;
 import jiekou.FragmentEntrust;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -41,7 +38,11 @@ public class PlaylistFragment extends Fragment implements PlaylistAdapter.OnItem
     public static final String TAG="PlaylistFragment";
     private RecyclerView playlistRecycler;
     private Toolbar toolbar;
+    private int isLoading=0;
+    private List<PlayList> playLists;
+    private PlaylistAdapter adapter;
 
+    private List<Integer> list=new ArrayList<>();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,6 +60,9 @@ public class PlaylistFragment extends Fragment implements PlaylistAdapter.OnItem
         GridLayoutManager manager=new GridLayoutManager(getContext(),2);
         playlistRecycler.setLayoutManager(manager);
         getPlaylistRequest();
+
+
+
     }
 
  /*   @Override
@@ -76,14 +80,37 @@ public class PlaylistFragment extends Fragment implements PlaylistAdapter.OnItem
 
 
     private void getPlaylistRequest(){
-        MusicRequestUtil.getPlayList(getContext(), new ResultCallback() {
+        MusicRequestUtil.getPlayList(0,getContext(), new ResultCallback() {
             @Override
             public void onResponse(Response response) throws IOException {
                 String text=response.body().string();
-                List<PlayList> playLists= Utility.handlePlayListResponse(text);
-                PlaylistAdapter adapter=new PlaylistAdapter(playLists);
+                playLists= Utility.handlePlayListResponse(text);
+                adapter=new PlaylistAdapter(playLists);
                 adapter.setOnItemClicklistener(PlaylistFragment.this);
+
+                WrapAdapter wrapAdapter=new WrapAdapter(adapter);
+                View view=LayoutInflater.from(getActivity()).inflate(R.layout.load_item,null);
+                // wrapAdapter.addHeaderView(view);
+                wrapAdapter.addFooterView(view);
+                wrapAdapter.adjustSpanSize(playlistRecycler);
                 playlistRecycler.setAdapter(adapter);
+
+                playlistRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                        Log.e(TAG, "onScrollStateChanged: " );
+                        super.onScrollStateChanged(recyclerView, newState);
+                        if (newState==RecyclerView.SCROLL_STATE_IDLE){
+                            if(isLoading<5&&!recyclerView.canScrollVertically(1)){
+                                isLoading++;
+                                loadData(isLoading);
+
+                            }
+                        }
+                    }
+
+                });
+
             }
 
             @Override
@@ -122,5 +149,29 @@ public class PlaylistFragment extends Fragment implements PlaylistAdapter.OnItem
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
+    }
+
+    private void loadData(int count){
+        Log.e(TAG, "loadData: " );
+        MusicRequestUtil.getPlayList(count, getContext(), new ResultCallback() {
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String text=response.body().string();
+                List<PlayList> playList= Utility.handlePlayListResponse(text);
+                playLists.addAll(playList);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(Request request, Exception ex) {
+                Toast.makeText(getContext(),"Failed",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void initData(){
+        for(int i=0;i<99;i++){
+            list.add(i);
+        }
     }
 }
