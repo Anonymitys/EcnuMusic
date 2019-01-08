@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/playlist_toolbar"
         android:layout_width="match_parent"
@@ -10,57 +14,16 @@
         android:background="@color/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
     </android.support.v7.widget.Toolbar>
-   <!--<ScrollView-->
-       <!--android:layout_width="match_parent"-->
-       <!--android:layout_height="match_parent">-->
-      <!--<LinearLayout-->
-          <!--android:layout_width="match_parent"-->
-          <!--android:layout_height="match_parent"-->
-          <!--android:orientation="vertical">-->
 
-          <!--<RelativeLayout-->
-              <!--android:layout_width="match_parent"-->
-              <!--android:layout_height="wrap_content"-->
-              <!--android:layout_marginTop="10dp"-->
-              <!--android:paddingRight="10dp"-->
-              <!--android:paddingLeft="10dp">-->
-              <!--<TextView-->
-                  <!--android:id="@+id/category_textview"-->
-                  <!--android:layout_width="wrap_content"-->
-                  <!--android:layout_height="wrap_content"-->
-                  <!--android:text="全部歌单"/>-->
-              <!--<TextView-->
-                  <!--android:layout_width="wrap_content"-->
-                  <!--android:layout_height="wrap_content"-->
-                  <!--android:text="推荐"-->
-                  <!--android:layout_toLeftOf="@id/sortid_textview"-->
-                  <!--android:layout_marginRight="10dp"/>-->
-              <!--<TextView-->
-                  <!--android:id="@+id/sortid_textview"-->
-                  <!--android:layout_width="wrap_content"-->
-                  <!--android:layout_height="wrap_content"-->
-                  <!--android:text="最新"-->
-                  <!--android:layout_alignParentRight="true"/>-->
-          <!--</RelativeLayout>-->
-          <!--<RelativeLayout-->
-              <!--android:layout_width="match_parent"-->
-              <!--android:layout_height="wrap_content">-->
-              <!--<android.support.v7.widget.RecyclerView-->
-                  <!--android:layout_marginLeft="5dp"-->
-                  <!--android:id="@+id/playlist_recycler"-->
-                  <!--android:layout_width="match_parent"-->
-                  <!--android:layout_height="match_parent">-->
-              <!--</android.support.v7.widget.RecyclerView>-->
-          <!--</RelativeLayout>-->
-
-      <!--</LinearLayout>-->
-
-   <!--</ScrollView>-->
-
-    <android.support.v7.widget.RecyclerView
-    android:layout_marginLeft="5dp"
-    android:id="@+id/playlist_recycler"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    </android.support.v7.widget.RecyclerView>
-</LinearLayout>
+    <huqiang.dada.basecomponent.recyclerview.XRecyclerView
+        android:layout_below="@id/playlist_toolbar"
+        android:id="@+id/playlist_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </huqiang.dada.basecomponent.recyclerview.XRecyclerView>
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/playlist_toolbar"
+        layout="@layout/layout_loading"/>
+</RelativeLayout>

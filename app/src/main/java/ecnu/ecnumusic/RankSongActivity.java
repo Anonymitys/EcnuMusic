@@ -2,18 +2,17 @@ package ecnu.ecnumusic;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -24,9 +23,7 @@ import Utils.MusicRequestUtil;
 import Utils.ResultCallback;
 import Utils.Utility;
 import adapter.SingerSongRecyclerAdapter;
-import classcollection.Music;
 import classcollection.Song;
-import fragments.BaseFragment;
 import okhttp3.Request;
 import okhttp3.Response;
 import service.MusicService;
@@ -38,6 +35,8 @@ public class RankSongActivity extends BaseActivity implements SingerSongRecycler
     private ImageView iconImage;
     private Toolbar toolbar;
     private RecyclerView recyclerView;
+    private View loadingView;
+    private AnimationDrawable mAnimationDrawable;
     private static final String TAG="RankSongActivity";
     private String icon,listNmae;
     private int topID;
@@ -45,11 +44,14 @@ public class RankSongActivity extends BaseActivity implements SingerSongRecycler
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranksong);
-        toolbarLayout=(CollapsingToolbarLayout)findViewById(R.id.collapsing_toorbar);
-        toolbar=(Toolbar)findViewById(R.id.singer_toorbar);
-        iconImage=(ImageView)findViewById(R.id.icon_pic);
-        recyclerView=(RecyclerView)findViewById(R.id.ranksong_recycler) ;
+        toolbarLayout=findViewById(R.id.collapsing_toorbar);
+        toolbar=findViewById(R.id.singer_toorbar);
+        iconImage=findViewById(R.id.icon_pic);
+        recyclerView=findViewById(R.id.ranksong_recycler) ;
         recyclerView.setNestedScrollingEnabled(false);
+        loadingView=((ViewStub)findViewById(R.id.vs_loading)).inflate();
+        ImageView img=loadingView.findViewById(R.id.img_progress);
+        mAnimationDrawable=(AnimationDrawable) img.getDrawable();
         initWindows();
         initToolbar();
         Intent intent=getIntent();
@@ -58,6 +60,7 @@ public class RankSongActivity extends BaseActivity implements SingerSongRecycler
         listNmae=intent.getStringExtra("listName");
         Glide.with(this).load(icon).into(iconImage);
         toolbarLayout.setTitle(" ");
+        showLoading();
     }
 
     private void initWindows(){
@@ -70,18 +73,7 @@ public class RankSongActivity extends BaseActivity implements SingerSongRecycler
     public void connection(IBinder service) {
         super.connection(service);
         musicBinder=(MusicService.MusicBinder)service;
-        musicBinder.getService().setOnPlayEventListener(this);
         initRequest();
-    }
-
-    @Override
-    public void onChange(Song song, Music music) {
-        super.onChange(song,music);
-    }
-
-    @Override
-    public void onPlayerStart() {
-        super.onPlayerStart();
     }
 
     private void initToolbar(){
@@ -109,6 +101,7 @@ public class RankSongActivity extends BaseActivity implements SingerSongRecycler
                 SingerSongRecyclerAdapter adapter=new SingerSongRecyclerAdapter(songDataList,TAG);
                 adapter.setOnItemClickListener(RankSongActivity.this);
                 recyclerView.setAdapter(adapter);
+                showContent();
 
             }
 
@@ -122,6 +115,31 @@ public class RankSongActivity extends BaseActivity implements SingerSongRecycler
     @Override
     public void onItemClick(int position, List<Song> songs) {
         Log.e(TAG, "onItemClick: "+songs.get(position).songmid );
-        musicBinder.playFromURL(position,songs);
+       // musicBinder.playFromURL(position,songs);
+        musicBinder.playFromvkey(position,songs);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.slide_alpha_out_from_center);
+    }
+
+    public void showLoading(){
+        if (loadingView!=null&&loadingView.getVisibility()!=View.VISIBLE){
+            loadingView.setVisibility(View.VISIBLE);
+        }
+        if (!mAnimationDrawable.isRunning()){
+            mAnimationDrawable.start();
+        }
+    }
+
+    public void showContent(){
+        if(loadingView!=null&&loadingView.getVisibility()!=View.GONE){
+            loadingView.setVisibility(View.GONE);
+        }
+        if (mAnimationDrawable.isRunning()){
+            mAnimationDrawable.stop();
+        }
     }
 }

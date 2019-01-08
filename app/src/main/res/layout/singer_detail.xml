@@ -5,10 +5,10 @@
     android:layout_height="wrap_content"
     android:background="#ffffff">
 
-    <android.support.v7.widget.RecyclerView
+    <huqiang.dada.basecomponent.recyclerview.XRecyclerView
         android:id="@+id/singer_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </android.support.v7.widget.RecyclerView>
+    </huqiang.dada.basecomponent.recyclerview.XRecyclerView>
 
 </RelativeLayout>

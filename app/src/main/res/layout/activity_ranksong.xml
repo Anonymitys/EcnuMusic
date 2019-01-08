@@ -40,7 +40,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:fillViewport="true">
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -48,16 +48,14 @@
                 android:id="@+id/ranksong_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-
             </android.support.v7.widget.RecyclerView>
-            <TextView
+            <include
+                layout="@layout/layout_loading"/>
+            <android.support.v4.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="60dp" />
-        </LinearLayout>
-        
-
-
+                android:layout_height="60dp"
+                android:layout_below="@id/ranksong_recycler"/>
+        </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

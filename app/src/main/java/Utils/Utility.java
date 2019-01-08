@@ -1,20 +1,21 @@
 package Utils;
 
-import android.content.Context;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 import classcollection.CdList;
-import classcollection.SingerList;
+import classcollection.mv.MVDetail;
+import classcollection.mv.MvUrl;
+import classcollection.singer.SingerList;
 import classcollection.Song;
+import classcollection.sort.Category;
 import shouyeclass.Album;
 import shouyeclass.PlayList;
 import shouyeclass.Shouye;
@@ -61,8 +62,8 @@ public class Utility {
     public static SingerList handleSingerListResponse(String response){
         try{
             JSONObject jsonObject=new JSONObject(response).getJSONObject("singerList");
-            String neidisingerContent=jsonObject.getJSONObject("data").toString();
-            return new Gson().fromJson(neidisingerContent,SingerList.class);
+            String singerContent=jsonObject.getJSONObject("data").toString();
+            return new Gson().fromJson(singerContent,SingerList.class);
 
         }catch (Exception ex){
             ex.printStackTrace();
@@ -137,6 +138,43 @@ public class Utility {
             return new Gson().fromJson(jsonObject.toString(),SongSearch.class);
         }catch (Exception ex){
             ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<Category> handleCategoryResponse(String response){
+        int first = response.indexOf('(');
+        int last = response.lastIndexOf(')');
+        response = response.substring(first + 1, last);
+
+        try {
+            JSONObject jsonObject=new JSONObject(response).getJSONObject("data");
+            JSONArray jsonArray=jsonObject.getJSONArray("categories");
+            return new Gson().fromJson(jsonArray.toString(),new TypeToken<List<Category>>(){}.getType());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<MVDetail> handleMVResponse(String response){
+        try {
+            JSONObject jsonObject=new JSONObject(response).getJSONObject("data");
+            JSONArray jsonArray=jsonObject.getJSONArray("list");
+            return new Gson().fromJson(jsonArray.toString(),new TypeToken<List<MVDetail>>(){}.getType());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<MvUrl> handleMvUrlResponse(String response,String vid){
+        try {
+            JSONObject jsonObject=new JSONObject(response).getJSONObject("getMvUrl").getJSONObject("data").getJSONObject(vid);
+            JSONArray jsonArray=jsonObject.getJSONArray("mp4");
+            return new Gson().fromJson(jsonArray.toString(),new TypeToken<List<MvUrl>>(){}.getType());
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return null;
     }

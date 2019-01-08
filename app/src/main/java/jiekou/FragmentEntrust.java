@@ -11,5 +11,4 @@ import service.MusicService;
 public interface FragmentEntrust {
     public void pushFragment(Fragment fragment, String tag);
     public void popFragment(String tag);
-    public MusicService.MusicBinder getMusicBinder();
 }

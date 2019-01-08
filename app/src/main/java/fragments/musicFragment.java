@@ -31,8 +31,12 @@ import Utils.MusicRequestUtil;
 import Utils.Utility;
 import Utils.ResultCallback;
 import adapter.RecommendSonglistAdapter;
-import ecnu.ecnumusic.PlaylistFragment;
+import ecnu.ecnumusic.DayRecommendActivity;
+import ecnu.ecnumusic.MainActivity;
+import ecnu.ecnumusic.PlaylistActivity;
 import ecnu.ecnumusic.R;
+import ecnu.ecnumusic.RankActivity;
+import ecnu.ecnumusic.SingerActivity;
 import ecnu.ecnumusic.SongListDetailActivity;
 import jiekou.FragmentEntrust;
 import okhttp3.Request;
@@ -42,21 +46,22 @@ import shouyeclass.Album;
 import shouyeclass.Content;
 import shouyeclass.Shouye;
 import shouyeclass.Vhot;
+import widget.CircleView;
 
-public class musicFragment extends Fragment implements View.OnClickListener, RecommendSonglistAdapter.OnItemClickListener{
+public class musicFragment extends Fragment implements View.OnClickListener, RecommendSonglistAdapter.OnItemClickListener {
     private Banner banner;
-    private LinearLayout singerLayout,recommendlayout,songlistLayout,rankLayout,recommendsonglistLayout,changeLayout;
-    private List<String> imageUrls=new ArrayList<>();
-    private RecyclerView songlistRecycler,albumRecycler;
+    private LinearLayout singerLayout, recommendlayout, songlistLayout, rankLayout, recommendsonglistLayout, changeLayout;
+    private List<String> imageUrls = new ArrayList<>();
+    private RecyclerView songlistRecycler, albumRecycler;
     private TextView textView;
-    private static final String TAG="MusicFragment";
+    private static final String TAG = "MusicFragment";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       View view= inflater.inflate(R.layout.music,container,false);
-       initView(view);
-       initShouyeRequest();
+        View view = inflater.inflate(R.layout.music, container, false);
+        initView(view);
+        initShouyeRequest();
         return view;
     }
 
@@ -66,103 +71,94 @@ public class musicFragment extends Fragment implements View.OnClickListener, Rec
         textView.setText(getDay());
     }
 
-    private void initView(View view){
-        banner=(Banner)view.findViewById(R.id.banner_view);
-        singerLayout=(LinearLayout)view.findViewById(R.id.ll_singer);
+    private void initView(View view) {
+        banner = view.findViewById(R.id.banner_view);
+        singerLayout = view.findViewById(R.id.ll_singer);
         singerLayout.setOnClickListener(this);
-        recommendlayout=(LinearLayout)view.findViewById(R.id.ll_recommend);
+        recommendlayout = view.findViewById(R.id.ll_recommend);
         recommendlayout.setOnClickListener(this);
-        songlistLayout=(LinearLayout)view.findViewById(R.id.ll_song_list);
+        songlistLayout = view.findViewById(R.id.ll_song_list);
         songlistLayout.setOnClickListener(this);
-        rankLayout=(LinearLayout)view.findViewById(R.id.ll_rank_list);
+        rankLayout = view.findViewById(R.id.ll_rank_list);
         rankLayout.setOnClickListener(this);
-        recommendsonglistLayout=(LinearLayout)view.findViewById(R.id.ll_recommend_songlist);
+        recommendsonglistLayout = view.findViewById(R.id.ll_recommend_songlist);
         recommendsonglistLayout.setOnClickListener(this);
-        songlistRecycler=(RecyclerView)view.findViewById(R.id.songlist_recycler);
+        songlistRecycler = view.findViewById(R.id.songlist_recycler);
         songlistRecycler.setNestedScrollingEnabled(false);
-        albumRecycler=(RecyclerView)view.findViewById(R.id.album_recycler);
+        albumRecycler = view.findViewById(R.id.album_recycler);
         albumRecycler.setNestedScrollingEnabled(false);
-        changeLayout=(LinearLayout)view.findViewById(R.id.ll_change_songlist);
-        textView=(TextView)view.findViewById(R.id.date_song);
+        changeLayout = view.findViewById(R.id.ll_change_songlist);
+        textView = view.findViewById(R.id.date_song);
 
     }
 
-    private void initBannerCover(Shouye shouye){
-        for (Content content:shouye.focusData.contentData.contentList){
+    private void initBannerCover(Shouye shouye) {
+        for (Content content : shouye.focusData.contentData.contentList) {
             imageUrls.add(content.picInfo.url);
         }
     }
 
+
     @Override
     public void onClick(View v) {
-        Intent intent=null;
-        PlaylistFragment playlistFragment=new PlaylistFragment();
-        SingerListFragment singerListFragment=new SingerListFragment();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_singer:
-                ((FragmentEntrust)getActivity()).pushFragment(singerListFragment,PlaylistFragment.TAG);
+                SingerActivity.getLaunch(getActivity());
                 break;
             case R.id.ll_recommend:
                 getDayRecommendList();
                 break;
             case R.id.ll_song_list:
-                ((FragmentEntrust)getActivity()).pushFragment(playlistFragment,PlaylistFragment.TAG);
+                PlaylistActivity.getLaunch(getActivity());
                 break;
             case R.id.ll_rank_list:
-                 RankFragment rankFragment=new RankFragment();
-                ((FragmentEntrust)getActivity()).pushFragment(rankFragment,RankFragment.TAG);
+                RankActivity.getLaunch(getActivity());
                 break;
             case R.id.ll_recommend_songlist:
-                ((FragmentEntrust)getActivity()).pushFragment(playlistFragment,PlaylistFragment.TAG);
+                PlaylistActivity.getLaunch(getActivity());
                 break;
-
-                default:
-                    break;
+            default:
+                break;
         }
     }
 
-    private void changeRecommendlist(List<Vhot> vhotList){
-        List<Vhot> lists=new ArrayList<>();
+    private void changeRecommendlist(List<Vhot> vhotList) {
+        List<Vhot> lists = new ArrayList<>();
         lists.clear();
-        for(int i=0;i<6;i++){
-            lists.add(i,vhotList.remove(0));
+        for (int i = 0; i < 6; i++) {
+            lists.add(i, vhotList.remove(0));
         }
-       vhotList.addAll(lists);
+        vhotList.addAll(lists);
     }
 
     @Override
-    public void onItemClick(String tag,ImageView imageView,Vhot vhot,Album album) {
+    public void onItemClick(String tag, ImageView imageView, Vhot vhot, Album album) {
 
-        Bundle bundle=new Bundle();
-        bundle.putString("tag",tag);
-        bundle.putSerializable("recommendlist",vhot);
-        bundle.putSerializable("album",album);
+        Bundle bundle = new Bundle();
+        bundle.putString("tag", tag);
+        bundle.putSerializable("recommendlist", vhot);
+        bundle.putSerializable("album", album);
 
-        Intent intent=new Intent(getContext(), SongListDetailActivity.class);
-        intent.putExtra("song",bundle);
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),imageView,"sharedView");//与xml文件对应
-        startActivity(intent,options.toBundle());
+        Intent intent = new Intent(getContext(), SongListDetailActivity.class);
+        intent.putExtra("song", bundle);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageView, "sharedView");//与xml文件对应
+        startActivity(intent, options.toBundle());
     }
 
-    private void getDayRecommendList(){
+    private void getDayRecommendList() {
         MusicRequestUtil.getDayRecommendid(getContext(), new ResultCallback() {
             @Override
             public void onResponse(Response response) throws IOException {
-                String text=response.body().string();
-                try{
-                    JSONObject jsonObject=new JSONObject(text).getJSONObject("recomPlaylist").getJSONObject("data");
-                    JSONArray jsonArray=jsonObject.getJSONArray("v_hot");
-                    long content_id=jsonArray.getJSONObject(0).getLong("content_id");
-                    String imageUrl=jsonArray.getJSONObject(0).getString("cover");
-                    String titleContent=jsonArray.getJSONObject(0).getString("title");
-                    Bundle bundle=new Bundle();
-                    bundle.putLong("content_id",content_id);
-                    bundle.putString("imageUrl",imageUrl);
-                    bundle.putString("titleContent",titleContent);
-                    DayRecommnedFragment fragment=new DayRecommnedFragment();
-                    fragment.setArguments(bundle);
-                    ((FragmentEntrust)getActivity()).pushFragment(fragment,DayRecommnedFragment.TAG);
-                }catch (Exception ex){
+                String text = response.body().string();
+                Log.e(TAG, "onResponse: " + text);
+                try {
+                    JSONObject jsonObject = new JSONObject(text).getJSONObject("recomPlaylist").getJSONObject("data");
+                    JSONArray jsonArray = jsonObject.getJSONArray("v_hot");
+                    long content_id = jsonArray.getJSONObject(0).getLong("content_id");
+                    String imageUrl = jsonArray.getJSONObject(0).getString("cover");
+                    String titleContent = jsonArray.getJSONObject(0).getString("title");
+                    DayRecommendActivity.getLaunch(getActivity(), content_id, titleContent, imageUrl);
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
@@ -173,18 +169,19 @@ public class musicFragment extends Fragment implements View.OnClickListener, Rec
             }
         });
     }
-    private String getDay(){
-        Calendar calendar=Calendar.getInstance();
+
+    private String getDay() {
+        Calendar calendar = Calendar.getInstance();
         return String.valueOf(calendar.get(Calendar.DATE));
     }
 
-    private void initShouyeRequest(){
+    private void initShouyeRequest() {
         MusicRequestUtil.getShouyeMusic(getContext(), new ResultCallback() {
             @Override
             public void onResponse(Response response) throws IOException {
-                String responseText=response.body().string();
-                Log.e(TAG, "onResponse: "+responseText);
-                Shouye shouye=Utility.handleShouyeResponse(responseText);
+                String responseText = response.body().string();
+                Log.e(TAG, "onResponse: " + responseText);
+                Shouye shouye = Utility.handleShouyeResponse(responseText);
 
                 initBannerCover(shouye);
                 banner.setImageLoader(new GlideImageLoader());
@@ -195,21 +192,21 @@ public class musicFragment extends Fragment implements View.OnClickListener, Rec
 
             @Override
             public void onError(Request request, Exception ex) {
-                Toast.makeText(getContext(),"shouyefailed",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "shouyefailed", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void initSongListRecycler(Shouye shouye){
-        final List<Vhot> vhotList=shouye.recomData.vhotData.vhotList;
-        final List<Album> albumList=shouye.albumData.listData.albumList;
+    private void initSongListRecycler(Shouye shouye) {
+        final List<Vhot> vhotList = shouye.recomData.vhotData.vhotList;
+        final List<Album> albumList = shouye.albumData.listData.albumList;
         vhotList.remove(0);
-        GridLayoutManager manager=new GridLayoutManager(getContext(),3);
-        GridLayoutManager albumManager=new GridLayoutManager(getContext(),3);
+        GridLayoutManager manager = new GridLayoutManager(getContext(), 3);
+        GridLayoutManager albumManager = new GridLayoutManager(getContext(), 3);
         songlistRecycler.setLayoutManager(manager);
         albumRecycler.setLayoutManager(albumManager);
-        final RecommendSonglistAdapter adapter=new RecommendSonglistAdapter("songlist",vhotList,albumList);
-        final RecommendSonglistAdapter albumAdapter=new RecommendSonglistAdapter("albumlist",vhotList,albumList);
+        final RecommendSonglistAdapter adapter = new RecommendSonglistAdapter("songlist", vhotList, albumList);
+        final RecommendSonglistAdapter albumAdapter = new RecommendSonglistAdapter("albumlist", vhotList, albumList);
         adapter.setOnItemClickListener(this);
         albumAdapter.setOnItemClickListener(this);
         songlistRecycler.setAdapter(adapter);
@@ -222,8 +219,6 @@ public class musicFragment extends Fragment implements View.OnClickListener, Rec
             }
         });
     }
-
-
 
 }
 

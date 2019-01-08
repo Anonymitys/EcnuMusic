@@ -16,7 +16,6 @@ import classcollection.Singer;
 import classcollection.Song;
 import Utils.GlideImgManager;
 import ecnu.ecnumusic.R;
-import fragments.DayRecommnedFragment;
 
 public class SongDetailAdapter extends RecyclerView.Adapter<SongDetailAdapter.ViewHolder> {
    private List<Song> songList;
@@ -42,7 +41,7 @@ public class SongDetailAdapter extends RecyclerView.Adapter<SongDetailAdapter.Vi
         String text="";
         final Song song=songList.get(position);
         String url="https://y.gtimg.cn/music/photo_new/T002R300x300M000"+song.albummid+".jpg?max_age=2592000";
-        if (DayRecommnedFragment.TAG.equals(fromWhat)){
+        if ("DayRecommend".equals(fromWhat)){
             holder.album_image.setVisibility(View.VISIBLE);
             holder.positionTextview.setVisibility(View.INVISIBLE);
             GlideImgManager.glideLoaderCircle(mContext,url,R.drawable.album,R.drawable.album,

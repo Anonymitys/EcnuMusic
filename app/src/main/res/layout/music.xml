@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -16,201 +20,221 @@
                 android:id="@+id/banner_view"
                 android:layout_width="match_parent"
                 android:layout_height="432px"
-                app:scroll_time="500"
+                app:indicator_drawable_selected="@drawable/indictor_selector"
+                app:indicator_drawable_unselected="@drawable/indictor_unselector"
+                app:indicator_height="5dp"
                 app:indicator_margin="2.5dp"
                 app:indicator_width="5dp"
-                app:indicator_height="5dp"
-                app:indicator_drawable_unselected="@drawable/indictor_unselector"
-                app:indicator_drawable_selected="@drawable/indictor_selector">
+                app:scroll_time="500">
             </com.youth.banner.Banner>
 
             <LinearLayout
                 android:id="@+id/ll_title_layout"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
                 android:layout_height="90dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:layout_marginTop="10dp">
+                android:orientation="horizontal">
+
                 <LinearLayout
                     android:id="@+id/ll_singer"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
                     android:layout_marginLeft="18dp"
-                    android:layout_marginRight="18dp">
+                    android:layout_marginRight="18dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/singer"/>
+                        android:src="@drawable/singer" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="歌手"
-                        android:textSize="12sp"
-                        android:textColor="#ff000000"/>
+                        android:textColor="#ff000000"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
 
                 <LinearLayout
                     android:id="@+id/ll_recommend"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
                     android:layout_marginLeft="18dp"
-                    android:layout_marginRight="18dp">
+                    android:layout_marginRight="18dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
+
                         <ImageView
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:src="@drawable/recommend_list"
-                            android:layout_centerInParent="true"/>
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/recommend_list" />
+
                         <TextView
                             android:id="@+id/date_song"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
+                            android:layout_marginLeft="17dp"
+                            android:layout_marginTop="20dp"
                             android:gravity="center"
                             android:text="1"
-                            android:textSize="12sp"
-                           android:layout_marginLeft="17dp"
-                            android:layout_marginTop="20dp"
-                            android:textColor="#ffffff"/>
+                            android:textColor="#ffffff"
+                            android:textSize="12sp" />
                     </RelativeLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="每日推荐"
-                        android:textSize="12sp"
-                        android:textColor="#ff000000"/>
+                        android:textColor="#ff000000"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_song_list"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
                     android:layout_marginLeft="18dp"
-                    android:layout_marginRight="18dp">
+                    android:layout_marginRight="18dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/song_list"/>
+                        android:src="@drawable/song_list" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="歌单"
-                        android:textSize="12sp"
-                        android:textColor="#ff000000"/>
+                        android:textColor="#ff000000"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_rank_list"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
                     android:layout_marginLeft="18dp"
-                    android:layout_marginRight="18dp">
+                    android:layout_marginRight="18dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/rank_list"/>
+                        android:src="@drawable/rank_list" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="排行榜"
-                        android:textSize="12sp"
-                        android:textColor="#ff000000"/>
+                        android:textColor="#ff000000"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.4dp"
-                android:background="#64afafa5"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                android:background="#64afafa5" />
+
             <LinearLayout
                 android:id="@+id/ll_recommend_songlist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
-               android:layout_marginBottom="10dp">
+                android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="推荐歌单"
-                    android:textAppearance="@style/MainTextStyle"/>
+                    android:textAppearance="@style/MainTextStyle" />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/entertainment_more"/>
+                    android:src="@drawable/entertainment_more" />
             </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="3dp"
                 android:paddingRight="3dp">
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/songlist_recycler"
-                    android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true">
                 </android.support.v7.widget.RecyclerView>
             </RelativeLayout>
 
 
             <LinearLayout
-                android:layout_marginTop="15dp"
                 android:id="@+id/ll_change_songlist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:gravity="center">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="换一批"/>
+                    android:text="换一批" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_recommend_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginBottom="10dp">
+                android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="最新专辑"
-                    android:textAppearance="@style/MainTextStyle"/>
+                    android:textAppearance="@style/MainTextStyle" />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/entertainment_more"/>
+                    android:src="@drawable/entertainment_more" />
             </LinearLayout>
-              <RelativeLayout
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                  android:paddingLeft="3dp"
-                  android:paddingRight="3dp">
-                  <android.support.v7.widget.RecyclerView
-                      android:id="@+id/album_recycler"
-                      android:layout_width="wrap_content"
-                      android:layout_centerHorizontal="true"
-                      android:layout_height="wrap_content">
-                  </android.support.v7.widget.RecyclerView>
-              </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/album_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true">
+                </android.support.v7.widget.RecyclerView>
+            </RelativeLayout>
 
         </LinearLayout>
     </ScrollView>
-    
-
-
 </LinearLayout>

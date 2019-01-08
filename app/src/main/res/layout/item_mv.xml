@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_mv"
+    android:layout_width="match_parent"
+    android:layout_height="85dp"
+    android:background="@drawable/bg_click">
+    <ImageView
+        android:id="@+id/mv_pic"
+        android:layout_width="130dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="6dp"
+        android:layout_centerVertical="true"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_toEndOf="@id/mv_pic">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/mv_pic"
+            android:textColor="@color/blackColor"
+            android:text="怪咖"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/update_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/mv_pic"
+            android:layout_below="@id/title"
+            android:text="2018-12-22"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/backColor"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@id/mv_pic"/>
+</RelativeLayout>
