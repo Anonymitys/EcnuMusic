@@ -1,7 +1,6 @@
 package Utils;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
@@ -12,7 +11,9 @@ import java.util.List;
 
 import classcollection.CdList;
 import classcollection.mv.MVDetail;
+import classcollection.mv.MVInfo;
 import classcollection.mv.MvUrl;
+import classcollection.mv.OtherMv;
 import classcollection.singer.SingerList;
 import classcollection.Song;
 import classcollection.sort.Category;
@@ -173,6 +174,27 @@ public class Utility {
             JSONObject jsonObject=new JSONObject(response).getJSONObject("getMvUrl").getJSONObject("data").getJSONObject(vid);
             JSONArray jsonArray=jsonObject.getJSONArray("mp4");
             return new Gson().fromJson(jsonArray.toString(),new TypeToken<List<MvUrl>>(){}.getType());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<OtherMv> handleOtherMvResponse(String response){
+        try {
+            JSONObject jsonObject=new JSONObject(response).getJSONObject("other").getJSONObject("data");
+            JSONArray jsonArray=jsonObject.getJSONArray("list");
+            return new Gson().fromJson(jsonArray.toString(),new TypeToken<List<OtherMv>>(){}.getType());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static MVInfo handleMvInfoResponse(String response,String vid){
+        try {
+            JSONObject jsonObject=new JSONObject(response).getJSONObject("mvinfo").getJSONObject("data").getJSONObject(vid);
+            return new Gson().fromJson(jsonObject.toString(),MVInfo.class);
         } catch (JSONException e) {
             e.printStackTrace();
         }

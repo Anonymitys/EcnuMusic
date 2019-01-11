@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivity implements FragmentEntrust, OnPla
         StatusBarUtil.fullScreen(this);
         setContentView(R.layout.activity_main);
         layout = findViewById(R.id.drawer_layout);
-        mainFragment=new MainFragment();
+        mainFragment = new MainFragment();
         addMainFragment();
         requestPermission(this);
     }
@@ -89,9 +89,9 @@ public class MainActivity extends BaseActivity implements FragmentEntrust, OnPla
         }
     }
 
-    private void addMainFragment(){
-        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.main_fragment,mainFragment);
+    private void addMainFragment() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.main_fragment, mainFragment);
         transaction.commitAllowingStateLoss();
     }
 
@@ -118,15 +118,5 @@ public class MainActivity extends BaseActivity implements FragmentEntrust, OnPla
     @Override
     public void connection(IBinder service) {
         mainFragment.connection(service);
-    }
-
-    @Override
-    public void onChange(Song song, Music music) {
-        mainFragment.onChange(song,music);
-    }
-
-    @Override
-    public void onPlayerStart() {
-        mainFragment.onPlayerStart();
     }
 }

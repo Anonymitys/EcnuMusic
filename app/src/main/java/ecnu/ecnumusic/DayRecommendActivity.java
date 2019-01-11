@@ -8,6 +8,7 @@ import android.os.IBinder;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ImageView;
@@ -42,7 +43,6 @@ public class DayRecommendActivity extends BaseActivity implements SongDetailAdap
     private String title, imageUrl;
     private android.support.v7.widget.Toolbar toolbar;
     private MusicService.MusicBinder musicBinder;
-    private Handler handler = new Handler();
 
     public static void getLaunch(Activity activity, Long content_id, String title, String imageUrl) {
         Intent intent = new Intent(activity, DayRecommendActivity.class);
@@ -77,7 +77,12 @@ public class DayRecommendActivity extends BaseActivity implements SongDetailAdap
         Glide.with(this).load(imageUrl)
                 .error(R.drawable.stackblur_default)
                 .bitmapTransform(new BlurTransformation(this, 70, 4)).into(title_image_background);
-        titleView.setText(title);
+        Log.e(TAG, "onCreate: "+title );
+        if (title.contains("：")){
+            titleView.setText(title.split("：")[1]);
+        }else{
+            titleView.setText(title);
+        }
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
         getDayRecommend(String.valueOf(content_id));
@@ -87,7 +92,6 @@ public class DayRecommendActivity extends BaseActivity implements SongDetailAdap
 
     private void initToolBar() {
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setTitle("新歌推荐");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

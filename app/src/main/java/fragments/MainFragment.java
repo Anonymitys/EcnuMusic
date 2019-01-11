@@ -1,7 +1,9 @@
 package fragments;
 
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.design.widget.TabLayout;
@@ -31,9 +33,10 @@ import ecnu.ecnumusic.MainActivity;
 import ecnu.ecnumusic.R;
 import ecnu.ecnumusic.SearchActivity;
 import service.MusicService;
+import service.OnPlayerEventListener;
 import widget.CircleView;
 
-public class MainFragment extends BaseFragment implements View.OnClickListener, DialogAdapter.OnItemClickListener {
+public class MainFragment extends BaseFragment implements View.OnClickListener, DialogAdapter.OnItemClickListener, OnPlayerEventListener {
     private ImageView searchButton, homeButton;
     private ViewPager pager;
     private TabLayout tabLayout;
@@ -125,6 +128,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
 
     public void connection(IBinder service) {
         musicBinder = (MusicService.MusicBinder) service;
+        musicBinder.getService().setOnPlayEventListener(this);
         if (musicBinder.getMusicList().size() > 0) {
             playbarView.setVisibility(View.VISIBLE);
             Song song = musicBinder.getMusicList().get(musicBinder.getCurrentPosition());
@@ -139,28 +143,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
             }
 
         }
-    }
-
-    public void onChange(Song song, Music music) {
-        if (song != null) {
-            String url = "https://y.gtimg.cn/music/photo_new/T002R300x300M000" + song.albummid + ".jpg?max_age=2592000";
-            songName.setText(song.songname);
-            GlideImgManager.glideLoaderCircle(mContext, url, R.drawable.album, R.drawable.album,
-                    songImage);
-
-        } else {
-            songName.setText(music.getTitle());
-            GlideImgManager.glideLoaderCircle(mContext, MusicUtil.getAlbumArt(mContext, music.getAlbum_id()), R.drawable.album, R.drawable.album,
-                    songImage);
-        }
-        playbarView.setVisibility(View.VISIBLE);
-        playPause.setBackground(mActivity.getDrawable(R.drawable.play));
-        circleView.setVisibility(View.VISIBLE);
-        circleView.setCurrentAngle(0f);
-    }
-
-    public void onPlayerStart() {
-        setPlay();
     }
 
     public void onPlayPauseClick() {
@@ -179,7 +161,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
         playPause.setBackground(mActivity.getDrawable(R.drawable.play));
         circleView.setVisibility(View.VISIBLE);
         circleView.setDuration(musicBinder.getMediaPlayer().getDuration() / 1000);
-        // circleView.setBackColorTransparent(false);
         handler.post(progressBarRunable);
     }
 
@@ -228,4 +209,30 @@ public class MainFragment extends BaseFragment implements View.OnClickListener, 
         // musicBinder.playFromURI(song);
         musicBinder.playFromvKey(song);
     }
+
+    @Override
+    public void onChange(Song song, Music music) {
+        if (song != null) {
+            String url = "https://y.gtimg.cn/music/photo_new/T002R300x300M000" + song.albummid + ".jpg?max_age=2592000";
+            songName.setText(song.songname);
+            GlideImgManager.glideLoaderCircle(mContext, url, R.drawable.album, R.drawable.album,
+                    songImage);
+
+        } else {
+            songName.setText(music.getTitle());
+            GlideImgManager.glideLoaderCircle(mContext, MusicUtil.getAlbumArt(mContext, music.getAlbum_id()), R.drawable.album, R.drawable.album,
+                    songImage);
+        }
+        playbarView.setVisibility(View.VISIBLE);
+        playPause.setBackground(mActivity.getDrawable(R.drawable.play));
+        circleView.setVisibility(View.VISIBLE);
+        circleView.setCurrentAngle(0f);
+
+    }
+
+    @Override
+    public void onPlayerStart() {
+        setPlay();
+    }
+
 }

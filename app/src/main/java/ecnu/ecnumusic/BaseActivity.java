@@ -45,7 +45,6 @@ public class BaseActivity extends AppCompatActivity implements OnPlayerEventList
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.e(TAG, "onServiceConnected: ");
             connection(service);
         }
 
@@ -58,7 +57,7 @@ public class BaseActivity extends AppCompatActivity implements OnPlayerEventList
     public void connection(IBinder service) {
         musicBinder = (MusicService.MusicBinder) service;
         musicBinder.getService().setOnPlayEventListener(this);
-        if (musicBinder.getMusicList().size() > 0) {
+        if (musicBinder.getMusicList().size() > 0 && usePlaybarView()) {
             playbarView.setVisibility(View.VISIBLE);
             Song song = musicBinder.getMusicList().get(musicBinder.getCurrentPosition());
             String url = "https://y.gtimg.cn/music/photo_new/T002R300x300M000" + song.albummid + ".jpg?max_age=2592000";
@@ -163,11 +162,6 @@ public class BaseActivity extends AppCompatActivity implements OnPlayerEventList
         playPause.setBackground(getDrawable(R.drawable.play));
         circleView.setVisibility(View.VISIBLE);
         circleView.setCurrentAngle(0f);
-
-    }
-
-    @Override
-    public void onPublish(int progress) {
 
     }
 

@@ -138,7 +138,6 @@ public class PlaylistActivity extends BaseActivity implements PlaylistAdapter.On
                     playLists.clear();
                 }
                 playLists.addAll(playList);
-                Log.e(TAG, "onResponse: " + playList.get(0).dissname);
                 adapter.notifyDataSetChanged();
                 playlistRecycler.refreshComplete();
                 if (playList.size()<80)

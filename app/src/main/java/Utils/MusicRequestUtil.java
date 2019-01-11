@@ -10,9 +10,11 @@ public class MusicRequestUtil {
     }
 
     public static void getDetailMusic(Context context, String dissid, ResultCallback callback) {
-        String url = "https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg?type=1&json=1&utf8=1&" +
+        /*String url = "https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg?type=1&json=1&utf8=1&" +
                 "onlysong=0&disstid=" + dissid + "&g_tk=5381&format=jsonp&inCharset=utf8&outCharset=utf-8&notice=0" +
-                "&platform=yqq&needNewCode=0";
+                "&platform=yqq&needNewCode=0";*/
+        String url = "https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg?type=1&json=1&utf8=1&" +
+                "onlysong=0&disstid=" + dissid + "";
         String header = "https://y.qq.com/n/yqq/playsquare/" + dissid + ".html";
         OkHttpEngine.getInstance(context).getAsynHttp(url, header, callback);
     }
@@ -128,5 +130,10 @@ public class MusicRequestUtil {
     public static void getMvurl(Context context, String vid, ResultCallback callback) {
         String url = "https://u.y.qq.com/cgi-bin/musicu.fcg?data={\"getMvUrl\":{\"module\":\"gosrf.Stream.MvUrlProxy\",\"method\":\"GetMvUrls\",\"param\":{\"vids\":[\""+vid+"\"],\"request_typet\":10001}}}";
         OkHttpEngine.getInstance(context).getAsynHttp(url, callback);
+    }
+    public static void getMvInfo(Context context,String vid,ResultCallback callback){
+        String url="https://u.y.qq.com/cgi-bin/musicu.fcg?data={\"mvinfo\":{\"module\":\"video.VideoDataServer\",\"method\":\"get_video_info_batch\",\"param\":{\"vidlist\":[\""+vid+"\"],\"required\":[\"vid\",\"type\",\"sid\",\"cover_pic\",\"duration\",\"singers\",\"video_switch\",\"msg\",\"name\",\"desc\",\"playcnt\",\"pubdate\",\"isfav\",\"gmid\"]}}," +
+                "\"other\":{\"module\":\"video.VideoLogicServer\",\"method\":\"rec_video_byvid\",\"param\":{\"vid\":\""+vid+"\",\"required\":[\"vid\",\"type\",\"sid\",\"cover_pic\",\"duration\",\"singers\",\"video_switch\",\"msg\",\"name\",\"desc\",\"playcnt\",\"pubdate\",\"isfav\",\"gmid\",\"uploader_headurl\",\"uploader_nick\",\"uploader_encuin\",\"uploader_uin\",\"uploader_hasfollow\",\"uploader_follower_num\"],\"support\":1}}}";
+        OkHttpEngine.getInstance(context).getAsynHttp(url,callback);
     }
 }
